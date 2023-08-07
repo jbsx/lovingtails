@@ -4,21 +4,12 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-hex: #e9e4da;
+  --background-hex: #f4f4ec;
   --accent-clr1: #d4c7be;
   --accent-clr2: #8a879a;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  /*background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-    */
-  background-color: var(--accent-clr1);
+  background-color: var(--background-hex);
 }
