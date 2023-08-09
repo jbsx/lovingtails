@@ -1,15 +1,14 @@
-import Socials from "./components/Socials";
-import cover from "../../public/retriever.jpg";
+import cover from "../../public/lovingtailscover.png";
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-wrap items-center min-h-[66vh]">
+    <div className="flex flex-col justify-center items-center mb-[120px]">
+      <div className="flex flex-wrap items-center justify-center my-[10vh] w-fit">
         <div className="break-normal text-6xl text-[var(--accent-clr2)] max-w-xl m-[2em]">
           Give Your Pet the Gift of Good Health with LovingTails Supplements
         </div>
         <img
-          className="rounded-lg max-w-[1000px]"
+          className="max-w-[800px] object-contain"
           src={cover.src}
           alt="Cover Img"
         />
@@ -17,7 +16,6 @@ export default function Home() {
       <div>
         [ ] Best Sellers <br /> [ ] Testimonials <br /> [ ] Socials
       </div>
-      <br />
     </div>
   );
 }

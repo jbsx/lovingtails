@@ -1,3 +1,3 @@
 export default function Faqs() {
-  return <div>FAQs</div>;
+  return <div>Contacts</div>;
 }
