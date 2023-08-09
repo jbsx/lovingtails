@@ -15,6 +15,7 @@ export default function Home() {
       </div>
       <div>
         [ ] Best Sellers <br /> [ ] Testimonials <br /> [ ] Socials
+        <br /> [ ] Newsletter
       </div>
     </div>
   );

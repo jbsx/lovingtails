@@ -20,9 +20,6 @@ export default function Navbar() {
         <Link className="p-3 m-2 w-[100]" href={"/store"}>
           Store
         </Link>
-        <Link className="p-3 m-2 w-[100]" href={"/reviews"}>
-          Reviews
-        </Link>
         <Link className="p-3 m-2 w-[100]" href={"/contact"}>
           Contact Us
         </Link>
@@ -54,15 +51,6 @@ export default function Navbar() {
             }}
           >
             Store
-          </Link>
-          <Link
-            className="p-3 m-2 w-[100]"
-            href={"/reviews"}
-            onClick={() => {
-              setHmenu(!hmenu);
-            }}
-          >
-            Reviews
           </Link>
           <Link
             className="p-3 m-2 w-[100]"
