@@ -1,0 +1,22 @@
+import Milo from "../../../public/milo.png";
+export default function Testimonial() {
+  return (
+    <div className="max-w-[600px] flex flex-col justify-center items-center bg-[var(--accent-clr2)] p-[2em] m-[1em] rounded-xl text-zinc-100">
+      <div className="w-[40%]">
+        <img
+          src={Milo.src}
+          alt="img photo"
+          className="rounded-full aspect-square"
+        />
+      </div>
+      <div className="text-2xl p-[1em]">Milo - ____ old Rottweiler</div>
+      <div className="text-xl">
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+        amet.
+      </div>
+    </div>
+  );
+}

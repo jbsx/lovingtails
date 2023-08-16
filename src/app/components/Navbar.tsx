@@ -16,7 +16,7 @@ export default function Navbar() {
           <span className="text-4xl m-[1em]">LovingTails</span>
         </div>
       </Link>
-      <div className="hidden lg:block text-xl">
+      <div className="hidden lg:block text-2xl">
         <Link className="p-3 m-2 w-[100]" href={"/store"}>
           Store
         </Link>
@@ -42,7 +42,7 @@ export default function Navbar() {
         )}
       </div>
       {!hmenu && (
-        <div className="absolute top-[152px] left-0 w-[100vw] min-h-[100vh] backdrop-blur pt-[100px] flex flex-col text-4xl">
+        <div className="absolute top-[152px] left-0 w-screen h-screen backdrop-blur pt-[100px] flex flex-col text-4xl">
           <Link
             className="p-3 m-2 w-[100]"
             href={"/store"}
