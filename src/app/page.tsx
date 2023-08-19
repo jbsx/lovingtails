@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import cover from "../../public/lovingtailscover.png";
 import Testimonial from "./components/Testimonial";
 import Product from "./components/Product";
@@ -10,8 +11,10 @@ export default function Home() {
         <div className="break-normal text-6xl text-[var(--accent-clr2)] max-w-xl m-[2em]">
           Give Your Pet the Gift of Good Health with LovingTails Supplements
         </div>
-        <img
+        <Image
           className="hidden max-w-[800px] xl:block"
+          width={800}
+          height={800}
           src={cover.src}
           alt="Cover Img"
         />
@@ -19,9 +22,9 @@ export default function Home() {
       <div className="bg-[var(--accent-clr1)] w-full py-[7em] flex justify-center p-5">
         <div className="max-w-[1200px] text-2xl text-justify text-zinc-600">
           At LovingTails, we believe that good health is the foundation of
-          happiness and longevity for pets. That's why we've developed a line of
-          premium supplements that are designed to provide your pet with the
-          essential nutrients they need to stay healthy and active.
+          happiness and longevity for pets. That&apos;s why we&apos;ve developed
+          a line of premium supplements that are designed to provide your pet
+          with the essential nutrients they need to stay healthy and active.
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center py-[12em]">
@@ -30,12 +33,18 @@ export default function Home() {
           nutrients they need to thrive. Try them today and see the difference!
         </span>
         <div className="flex flex-wrap flex-col lg:flex-row w-full justify-center items-center py-[3em]">
-          <Product name={"Placeholder name"} price={100} tag={"Best Seller"} />
-          <Product name={"Placeholder name"} price={100} tag={"Best Value"} />
           <Product
-            name={"Placeholder name"}
-            price={100}
-            tag={"Our Recommendation"}
+            data={{ name: "Placeholder name", price: 100, tag: "Best Seller" }}
+          />
+          <Product
+            data={{ name: "Placeholder name", price: 100, tag: "Best Value" }}
+          />
+          <Product
+            data={{
+              name: "Placeholder name",
+              price: 100,
+              tag: "Our Recommendation",
+            }}
           />
         </div>
         <Link
@@ -56,7 +65,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center p-[3em] my-[5em] w-full">
         <div className="text-center text-3xl text-[var(--accent-clr2)] font-medium m-[1em]">
-          Some of our satisfied customers
+          Here are some of our satisfied customers!
         </div>
         <div className="flex justify-center flex-wrap">
           <Testimonial />

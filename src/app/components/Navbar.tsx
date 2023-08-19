@@ -1,6 +1,7 @@
 "use client";
 
 import Logo from "../../../public/logo.png";
+import Image from "next/image";
 import Link from "next/link";
 import { Menu, Cross } from "../imports";
 import { useState } from "react";
@@ -12,7 +13,7 @@ export default function Navbar() {
     <div className="bg-[var(--accent-clr1)] flex justify-between items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4">
       <Link href={"/"}>
         <div className="flex items-center">
-          <img className="max-h-[120px]" src={Logo.src} alt="Logo" />
+          <Image width={100} height={100} src={Logo.src} alt="Logo" />
           <span className="text-4xl m-[1em]">LovingTails</span>
         </div>
       </Link>
