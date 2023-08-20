@@ -24,11 +24,11 @@ export default function ProductPage({ params }: ParamsType) {
   }
   const p: Product = products[0];
   const paths = fs.readdirSync(`../`);
-  console.log(paths);
 
   return (
     <div className="mix-blend-darken flex justify-center items-center">
       {/*<ImagePreview p={p} paths={paths} />*/}
+      {JSON.stringify(paths)}
       <div className="mx-[10em]"></div>
       <div className="flex flex-col m-[4em]">
         <span className="text-xl font-semibold">{p.name}</span>
