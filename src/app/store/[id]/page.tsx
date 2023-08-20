@@ -28,7 +28,7 @@ export default function ProductPage({ params }: ParamsType) {
   return (
     <div className="mix-blend-darken flex justify-center items-center">
       {/*<ImagePreview p={p} paths={paths} />*/}
-      {JSON.stringify(fs.readdirSync(`./tempdb/`))}
+      {JSON.stringify(fs.readdirSync(`./`))}
       <div className="mx-[10em]"></div>
       <div className="flex flex-col m-[4em]">
         <span className="text-xl font-semibold">{p.name}</span>
