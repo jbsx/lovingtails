@@ -23,12 +23,12 @@ export default function ProductPage({ params }: ParamsType) {
     // TODO: redirect to 404
   }
   const p: Product = products[0];
-  const paths = fs.readdirSync(`./`);
+  const paths = fs.readdirSync(`./tempdb/products/${p.name}/`);
 
   return (
     <div className="mix-blend-darken flex justify-center items-center">
       {/*<ImagePreview p={p} paths={paths} />*/}
-      {JSON.stringify(fs.readdirSync(`./`))}
+      {JSON.stringify(fs.readdirSync(`./tempdb/products/${p.name}/`))}
       <div className="mx-[10em]"></div>
       <div className="flex flex-col m-[4em]">
         <span className="text-xl font-semibold">{p.name}</span>
