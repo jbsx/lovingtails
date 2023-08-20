@@ -38,7 +38,7 @@ export default function Home() {
         </span>
         <div className="flex flex-wrap flex-col lg:flex-row w-full justify-center items-center py-[3em]">
           {products.map((p) => {
-            return <Product data={p} />;
+            return <Product data={p} key={p.name} />;
           })}
         </div>
         <Link

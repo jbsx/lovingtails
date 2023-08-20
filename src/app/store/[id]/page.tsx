@@ -38,7 +38,9 @@ export default async function ProductPage({ params }: ParamsType) {
             {p.tag}
           </div>
         )}
-        <span className="text-3xl">INR {p.price}</span>
+        <span className="text-3xl">
+          {p.price == -1 ? "Out of stock" : `INR ${p.price}`}
+        </span>
       </div>
     </div>
   );

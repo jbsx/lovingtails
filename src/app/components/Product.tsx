@@ -42,7 +42,10 @@ export default function Product({ data }: Props) {
             {data.tag}
           </div>
         )}
-        <span className="text-3xl">INR {data.price}</span>
+
+        <span className="text-3xl">
+          {data.price == -1 ? "Out of stock" : `INR ${data.price}`}
+        </span>
       </div>
     </Link>
   );
