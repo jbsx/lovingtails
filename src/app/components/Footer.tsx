@@ -5,7 +5,9 @@ export default function Footer() {
       <div className="text-center">
         Find Us On
         <div className="flex flex-wrap">
-          <Link href={"/"}>Instagram</Link>
+          <Link href={"https://www.instagram.com/lovingtails.care/"}>
+            Instagram
+          </Link>
           <Link href={"/"}>Facebook</Link>
           <Link href={"/"}>Twitter</Link>
           <Link href={"/"}>Threads</Link>

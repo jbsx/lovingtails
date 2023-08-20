@@ -1,10 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import cover from "../../public/lovingtailscover.png";
 import Testimonial from "./components/Testimonial";
 import Product from "./components/Product";
+import cover from "../../public/lovingtailscover.png";
+import db from "../../tempdb/db.json";
 
 export default function Home() {
+  const products = db.Products.filter((p) => {
+    return p.tag !== undefined;
+  });
   return (
     <div className="flex flex-col justify-center items-center mb-[120px]">
       <div className="flex items-center justify-center my-[10vh] w-full">
@@ -33,19 +37,9 @@ export default function Home() {
           nutrients they need to thrive. Try them today and see the difference!
         </span>
         <div className="flex flex-wrap flex-col lg:flex-row w-full justify-center items-center py-[3em]">
-          <Product
-            data={{ name: "Placeholder name", price: 100, tag: "Best Seller" }}
-          />
-          <Product
-            data={{ name: "Placeholder name", price: 100, tag: "Best Value" }}
-          />
-          <Product
-            data={{
-              name: "Placeholder name",
-              price: 100,
-              tag: "Our Recommendation",
-            }}
-          />
+          {products.map((p) => {
+            return <Product data={p} />;
+          })}
         </div>
         <Link
           href={"/store"}

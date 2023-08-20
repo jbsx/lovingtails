@@ -1,23 +1,42 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-import img from "../../../tempdb/products/Doggie Munchies - Mutton and Strawberry/1.jpeg";
-
-interface Data {
-  name: String;
-  price: number;
-  tag?: String;
-}
+import { useState } from "react";
 
 interface Props {
-  data: Data;
+  data: {
+    name: string;
+    price: number;
+    tag?: string;
+  };
 }
 
 export default function Product({ data }: Props) {
+  const [hover, setHover] = useState(false);
+
   return (
-    <Link href={""}>
-      <div className="relative flex flex-col w-[300px] h-[400px] m-2 p-2 border rounded 4xl cursor-pointer mix-blend-darken text-zinc-700 hover:text-zinc-500 hover:shadow-md transition">
-        <Image width={300} height={300} src={img.src} alt="product image" />
-        <span className="text-xl font-semibold">{data.name}</span>
+    <Link href={`/store/${data.name}`}>
+      <div
+        className="relative flex flex-col w-[300px] h-[450px] m-2 p-2 border rounded 4xl cursor-pointer mix-blend-darken text-zinc-700 hover:text-zinc-500 hover:shadow-md transition"
+        onMouseEnter={() => {
+          setHover(true);
+        }}
+        onMouseLeave={() => {
+          setHover(false);
+        }}
+      >
+        <Image
+          width={300}
+          height={300}
+          src={require(`../../../tempdb/products/${data.name}/${
+            hover ? "2" : "1"
+          }.jpg`)}
+          alt={data.name}
+          className="overflow-hidden"
+        />
+        <span className="text-xl font-semibold h-[60px] overflow-hidden">
+          {data.name}
+        </span>
         {data.tag && (
           <div className="text-md w-fit bg-red-600 text-white bold p-[0.2em] px-[1em] rounded opacity-70">
             {data.tag}

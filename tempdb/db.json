@@ -1,13 +1,25 @@
 {
   "Products": [
-    { "Name": "Skin and Coat" },
-    { "Name": "Hip and Joint" },
-    { "Name": "Immunity Booster" },
-    { "Name": "Minerals and Amino Acids" },
-    { "Name": "Doggie Munchies - Mutton and Strawberry" },
-    { "Name": "Doggie Munchies - Assorted Milk & egg" },
-    { "Name": "Doggie Munchies - Chicken and Mango" },
-    { "Name": "Doggie Munchies - Veg Green Apple" },
-    { "Name": "Whey Protein - Meal Topper" }
+    { "name": "Skin and Coat", "price": 270 },
+    { "name": "Hip and Joint", "price": -1 },
+    { "name": "Immunity Booster", "price": -1 },
+    { "name": "Minerals and Amino Acids", "price": -1 },
+    {
+      "name": "Doggie Munchies - Mutton and Strawberry",
+      "price": 350,
+      "tag": "Our Recommendation"
+    },
+    {
+      "name": "Doggie Munchies - Milk and Egg",
+      "price": 170,
+      "tag": "Best Value"
+    },
+    {
+      "name": "Doggie Munchies - Chicken and Mango",
+      "price": -1,
+      "tag": "Best Seller"
+    },
+    { "name": "Doggie Munchies - Veg Green Apple", "price": -1 },
+    { "name": "Whey Protein - Meal Topper", "price": 125 }
   ]
 }

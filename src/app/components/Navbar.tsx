@@ -10,7 +10,7 @@ export default function Navbar() {
   const [hmenu, setHmenu] = useState(true);
 
   return (
-    <div className="bg-[var(--accent-clr1)] flex justify-between items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4">
+    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4">
       <Link href={"/"}>
         <div className="flex items-center">
           <Image width={100} height={100} src={Logo.src} alt="Logo" />
