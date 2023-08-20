@@ -36,6 +36,7 @@ export default function ImagePreview(params: Params) {
               onMouseEnter={() => {
                 setCurr(n);
               }}
+              className="m-[1px]"
             />
           );
         })}

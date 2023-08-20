@@ -34,7 +34,7 @@ export default function Product({ data }: Props) {
           alt={data.name}
           className="overflow-hidden"
         />
-        <span className="text-xl font-semibold h-[60px] overflow-hidden">
+        <span className="text-xl font-semibold h-[70px] overflow-hidden">
           {data.name}
         </span>
         {data.tag && (

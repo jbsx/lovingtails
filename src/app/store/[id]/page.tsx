@@ -13,11 +13,9 @@ interface Product {
   tag?: string;
 }
 
-async function loadimages(p: Product) {
-  return fs.readdirSync(`./tempdb/products/${p.name}/`);
-}
+//return fs.readdirSync(`./tempdb/products/${p.name}/`);
 
-export default async function ProductPage({ params }: ParamsType) {
+export default function ProductPage({ params }: ParamsType) {
   const products = db.Products.filter((p) => {
     return p.name == params.id.split("%20").join(" ");
   });
@@ -25,11 +23,12 @@ export default async function ProductPage({ params }: ParamsType) {
     // TODO: redirect to 404
   }
   const p: Product = products[0];
-  const paths = await loadimages(p);
+  const paths = fs.readdirSync(`../`);
+  console.log(paths);
 
   return (
     <div className="mix-blend-darken flex justify-center items-center">
-      <ImagePreview p={p} paths={paths} />
+      {/*<ImagePreview p={p} paths={paths} />*/}
       <div className="mx-[10em]"></div>
       <div className="flex flex-col m-[4em]">
         <span className="text-xl font-semibold">{p.name}</span>
