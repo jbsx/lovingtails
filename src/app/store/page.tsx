@@ -1,11 +1,6 @@
 import Product from "../components/Product";
 import db from "../../../tempdb/db.json";
-
-interface dbType {
-  name: string;
-  price: number;
-  tag?: string;
-}
+import { dbType } from "../utils";
 
 export default function Store() {
   return (

@@ -1,15 +1,10 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-
-interface Product {
-  name: string;
-  price: number;
-  tag?: string;
-}
+import { dbType } from "../utils";
 
 interface Params {
-  p: Product;
+  p: dbType;
   paths: Array<string>;
 }
 
@@ -17,14 +12,14 @@ export default function ImagePreview(params: Params) {
   const [curr, setCurr] = useState(params.paths[0]);
 
   return (
-    <div className="flex lg:flex-col flex-wrap justify-center items-center">
+    <div className="flex flex-col justify-center items-center">
       <Image
         width={600}
         height={600}
         src={require(`../../../tempdb/products/${params.p.name}/${curr}`)}
         alt={curr}
       />
-      <div className="flex max-w-[600px] overflow-x-scroll">
+      <div className="hidden md:block md:flex max-w-[600px]">
         {params.paths.map((n) => {
           return (
             <Image

@@ -20,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        <div className="min-h-[calc(100vh-275px)]">{children}</div>
+        <div className="min-h-[calc(100vh-275px)] flex flex-col justify-center">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

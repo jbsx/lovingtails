@@ -2,13 +2,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { dbType } from "../utils";
 
 interface Props {
-  data: {
-    name: string;
-    price: number;
-    tag?: string;
-  };
+  data: dbType;
 }
 
 export default function Product({ data }: Props) {
