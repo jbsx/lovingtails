@@ -2,6 +2,7 @@ import ImagePreview from "@/app/components/ImagePreview";
 import db from "../../../../tempdb/db.json";
 import fs from "fs";
 import path from "path";
+import { redirect } from "next/navigation";
 import { dbType } from "@/app/utils";
 
 interface ParamsType {
@@ -13,7 +14,7 @@ export default function ProductPage({ params }: ParamsType) {
     return p.name == params.id.split("%20").join(" ");
   });
   if (products.length == 0) {
-    // TODO: redirect to 404
+    redirect("/404");
   }
   const p: dbType = products[0];
   const paths = fs.readdirSync(
