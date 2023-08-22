@@ -23,8 +23,15 @@ export default function Home() {
           alt="Cover Img"
         />
       </div>
-      <div className="bg-[var(--accent-clr1)] w-full py-[7em] flex justify-center p-5">
-        <div className="max-w-[1200px] text-2xl text-justify text-zinc-600">
+      <div className="bg-cover bg-center w-full my-[20vh] flex justify-center p-5 z-[-1]">
+        <Image
+          className="absolute rotate-[30deg] w-screen opacity-[5%]"
+          width={1600}
+          height={1600}
+          src={require("../../public/bone.png")}
+          alt="bone"
+        />
+        <div className="max-w-[1200px] text-2xl text-justify text-[var(--accent-clr2)]">
           At LovingTails, we believe that good health is the foundation of
           happiness and longevity for pets. That&apos;s why we&apos;ve developed
           a line of premium supplements that are designed to provide your pet
@@ -43,12 +50,12 @@ export default function Home() {
         </div>
         <Link
           href={"/store"}
-          className="bg-red-400 p-3 rounded hover:bg-red-500 w-fit"
+          className="bg-[var(--accent-clr1)] p-3 rounded hover:bg-[var(--accent-clr2)] hover:text-white w-fit"
         >
           Visit Store
         </Link>
       </div>
-      <div className="flex flex-col w-full justify-center items-center bg-[var(--accent-clr1)] p-[3em] text-xl text-justify">
+      <div className="flex flex-col w-full justify-center items-center p-[3em] text-xl text-justify">
         <span className="max-w-[1200px] text-2xl text-justify text-zinc-600">
           Our supplements are made with only the highest quality ingredients and
           are formulated to meet the unique nutritional needs of pets. From our
