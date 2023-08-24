@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
 import { dbType } from "../utils";
+import ImageGallery from "react-image-gallery";
+import { ReactImageGalleryItem } from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 interface Params {
   p: dbType;
@@ -9,33 +11,30 @@ interface Params {
 }
 
 export default function ImagePreview(params: Params) {
-  const [curr, setCurr] = useState(params.paths[0]);
+  const images: Array<ReactImageGalleryItem> = params.paths.map((path) => {
+    return {
+      original: `../../../tempdb/products/${params.p.name}/${path}`,
+      originalAlt: path,
+      renderItem: (item) => {
+        return (
+          <Image
+            width={500}
+            height={500}
+            src={require("../../../tempdb/products/Hip and Joint/1.jpg")}
+            alt={"Product img"}
+            key={params.p.name}
+          />
+        );
+      },
+    };
+  });
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <Image
-        width={500}
-        height={500}
-        src={require(`../../../tempdb/products/${params.p.name}/${curr}`)}
-        alt={`${params.p.name}/${curr}`}
-        key={`${params.p.name}/${curr}`}
-      />
-      <div className="hidden md:block md:flex max-w-[600px]">
-        {params.paths.map((n) => {
-          return (
-            <Image
-              width={120}
-              height={120}
-              src={require(`../../../tempdb/products/${params.p.name}/${n}`)}
-              alt={`${params.p.name}/${n}`}
-              key={`${params.p.name}/${n}`}
-              onMouseEnter={() => {
-                setCurr(n);
-              }}
-            />
-          );
-        })}
-      </div>
-    </div>
+    <ImageGallery
+      items={images}
+      showFullscreenButton={false}
+      showPlayButton={false}
+      showNav={false}
+    />
   );
 }
