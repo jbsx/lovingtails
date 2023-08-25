@@ -14,7 +14,7 @@ export default function Navbar() {
       <Link href={"/"}>
         <div className="flex items-center">
           <Image width={100} height={100} src={Logo.src} alt="Logo" />
-          <span className="text-4xl m-[1em]">LovingTails</span>
+          <h1 className="text-4xl m-[1em] hidden sm:block">LovingTails</h1>
         </div>
       </Link>
       <div className="hidden lg:block text-2xl">
