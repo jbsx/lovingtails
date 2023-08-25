@@ -12,9 +12,9 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center mb-[120px]">
       <div className="flex items-center justify-center my-[10vh] w-full">
-        <div className="break-normal text-6xl text-[var(--accent-clr2)] max-w-xl m-[2em]">
+        <h2 className="break-normal text-6xl text-[var(--accent-clr2)] max-w-xl m-[2em]">
           Give Your Pet the Gift of Good Health with LovingTails Supplements
-        </div>
+        </h2>
         <Image
           className="hidden max-w-[800px] xl:block"
           width={800}
@@ -31,12 +31,12 @@ export default function Home() {
           src={require("../../public/bone.png")}
           alt="bone"
         />
-        <div className="max-w-[1200px] text-2xl text-justify text-[var(--accent-clr2)]">
+        <p className="max-w-[1200px] text-2xl text-justify text-[var(--accent-clr2)]">
           At LovingTails, we believe that good health is the foundation of
           happiness and longevity for pets. That&apos;s why we&apos;ve developed
           a line of premium supplements that are designed to provide your pet
           with the essential nutrients they need to stay healthy and active.
-        </div>
+        </p>
       </div>
       <div className="w-full flex flex-col justify-center items-center py-[12em]">
         <span className="text-3xl text-[var(--accent-clr2)] font-medium max-w-[1200px] text-center">
@@ -74,7 +74,6 @@ export default function Home() {
           <Testimonial />
         </div>
       </div>
-      <div>Newsletter</div>
     </div>
   );
 }

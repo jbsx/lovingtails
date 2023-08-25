@@ -21,12 +21,22 @@ export default function ImagePreview(params: Params) {
         renderItem: () => {
           return (
             <Image
-              width={500}
-              height={500}
+              width={800}
+              height={800}
               src={images[i]}
               alt={"Product img"}
               key={params.p.name}
             />
+          );
+        },
+        renderThumbInner: () => {
+          return (
+            <Image
+              width={50}
+              height={50}
+              src={images[i]}
+              alt={params.p.name}
+            ></Image>
           );
         },
       };
@@ -38,6 +48,8 @@ export default function ImagePreview(params: Params) {
       items={imggallery}
       showFullscreenButton={false}
       showPlayButton={false}
+      lazyLoad={true}
+      additionalClass="w-[700px]"
     />
   );
 }

@@ -1,25 +1,70 @@
 {
   "Products": [
-    { "name": "Skin and Coat", "price": 270 },
-    { "name": "Hip and Joint", "price": -1 },
-    { "name": "Immunity Booster", "price": -1 },
-    { "name": "Minerals and Amino Acids", "price": -1 },
+    {
+      "name": "Skin and Coat",
+      "price": 379,
+      "links": [
+        "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C3MCHM8J/"
+      ]
+    },
+    {
+      "name": "Hip and Joint",
+      "price": 360,
+      "links": [
+        "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C1X99NVB/"
+      ]
+    },
+    {
+      "name": "Immunity Booster",
+      "price": 270,
+      "links": [
+        "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C1XH1C38/"
+      ]
+    },
+    {
+      "name": "Minerals and Amino Acids",
+      "price": 280,
+      "links": [
+        "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C1X92YKQ/"
+      ]
+    },
     {
       "name": "Doggie Munchies - Mutton and Strawberry",
-      "price": 350,
-      "tag": "Our Recommendation"
+      "price": 170,
+      "tag": "Our Recommendation",
+      "links": [
+        "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHQNT9L"
+      ]
     },
     {
       "name": "Doggie Munchies - Milk and Egg",
       "price": 170,
-      "tag": "Best Value"
+      "tag": "Best Value",
+      "links": [
+        "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHS63YQ"
+      ]
     },
     {
       "name": "Doggie Munchies - Chicken and Mango",
-      "price": -1,
-      "tag": "Best Seller"
+      "price": 170,
+      "tag": "Best Seller",
+      "links": [
+        "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHRJ8TN"
+      ]
     },
-    { "name": "Doggie Munchies - Veg Green Apple", "price": -1 },
-    { "name": "Whey Protein - Meal Topper", "price": 125 }
+    {
+      "name": "Doggie Munchies - Veg Green Apple",
+      "price": 170,
+      "links": [
+        "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHQ8B9M"
+      ]
+    },
+    {
+      "name": "Whey Protein - Meal Topper",
+      "price": 125,
+      "links": [
+        "https://www.amazon.in/LovingTails-Meal-Topper-Protein-Powder/dp/B0C1X8C9LF"
+      ]
+    }
   ]
 }

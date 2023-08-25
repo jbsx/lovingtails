@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { redirect } from "next/navigation";
 import { dbType } from "@/app/utils";
+import Image from "next/image";
 
 interface ParamsType {
   params: { id: string };
@@ -25,15 +26,28 @@ export default function ProductPage({ params }: ParamsType) {
     <div className="mix-blend-darken flex flex-wrap justify-center items-center">
       <ImagePreview p={p} paths={paths} />
       <div className="flex flex-col m-[4em]">
-        <span className="text-xl font-semibold">{p.name}</span>
+        <h1 className="text-xl font-semibold my-[1em]">{p.name}</h1>
         {p.tag && (
-          <div className="text-md w-fit bg-red-600 text-white bold p-[0.2em] px-[1em] rounded opacity-70">
+          <h3 className="text-md w-fit bg-red-600 text-white bold p-[0.2em] px-[1em] rounded opacity-70">
             {p.tag}
-          </div>
+          </h3>
         )}
-        <span className="text-3xl">
+        <h2 className="text-3xl my-[1em]">
           {p.price == -1 ? "Out of stock" : `INR ${p.price}`}
-        </span>
+        </h2>
+
+        <div>
+          <a target="_blank" href={p.links[0]}>
+            <div className="flex items-center justify-center w-fit px-[4em] py-[1em] hover:bg-[#221f1f] text-white border-2 rounded-lg border-black">
+              <Image
+                width={50}
+                height={50}
+                src={require("../../../../public/amazon.svg")}
+                alt="amazon-logo"
+              />
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   );
