@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-hex: #f4f4ec;
-  --accent-clr1: #b5c588;
-  --accent-clr2: #192733;
+  --main-clr: #192733;
+  --accent-clr1: #6b84ab;
+  --accent-clr2: #ce657d;
+  --accent-clr3: #dba74f;
 }
 
 body {

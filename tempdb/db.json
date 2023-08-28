@@ -5,28 +5,32 @@
       "price": 379,
       "links": [
         "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C3MCHM8J/"
-      ]
+      ],
+      "desc": "Rich in omega-3 fatty acids, our Salmon Oil supports healthy skin and coat, reduces inflammation, and promotes heart health."
     },
     {
       "name": "Hip and Joint",
       "price": 360,
       "links": [
         "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C1X99NVB/"
-      ]
+      ],
+      "desc": "Our Joint & Hip Syrup is formulated with Calcium & D3  to support joint health and mobility, reduce pain and inflammation, and promote healthy cartilage."
     },
     {
       "name": "Immunity Booster",
       "price": 270,
       "links": [
         "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C1XH1C38/"
-      ]
+      ],
+      "desc": "Our Immunity Booster Syrup is packed with antioxidants, vitamins, and minerals to support a healthy immune system and protect against illness and disease."
     },
     {
       "name": "Minerals and Amino Acids",
       "price": 280,
       "links": [
         "https://www.amazon.in/LovingTails-Salmon-Oil-Shedding-Itchiness/dp/B0C1X92YKQ/"
-      ]
+      ],
+      "desc": "Our Multivitamins & Minerals Syrup provides a balanced blend of essential vitamins and minerals to support overall health and well-being."
     },
     {
       "name": "Doggie Munchies - Mutton and Strawberry",
@@ -34,7 +38,8 @@
       "tag": "Our Recommendation",
       "links": [
         "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHQNT9L"
-      ]
+      ],
+      "desc": ""
     },
     {
       "name": "Doggie Munchies - Milk and Egg",
@@ -42,7 +47,8 @@
       "tag": "Best Value",
       "links": [
         "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHS63YQ"
-      ]
+      ],
+      "desc": ""
     },
     {
       "name": "Doggie Munchies - Chicken and Mango",
@@ -50,21 +56,24 @@
       "tag": "Best Seller",
       "links": [
         "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHRJ8TN"
-      ]
+      ],
+      "desc": ""
     },
     {
       "name": "Doggie Munchies - Veg Green Apple",
       "price": 170,
       "links": [
         "https://www.amazon.in/LovingTails-Doggie-Munchies-Biscuit-Stages/dp/B0CFHQ8B9M"
-      ]
+      ],
+      "desc": ""
     },
     {
       "name": "Whey Protein - Meal Topper",
       "price": 125,
       "links": [
         "https://www.amazon.in/LovingTails-Meal-Topper-Protein-Powder/dp/B0C1X8C9LF"
-      ]
+      ],
+      "desc": "Our Meal Topper is a delicious and nutritious protein powder that can be sprinkled on top of your pet's food to add extra flavor and nutrition. Made with high-quality proteins, our Meal Topper supports healthy muscles, bones, and tissues."
     }
   ]
 }

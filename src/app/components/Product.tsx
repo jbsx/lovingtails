@@ -14,7 +14,7 @@ export default function Product({ data }: Props) {
   return (
     <Link href={`/store/${data.name}`}>
       <div
-        className="relative flex flex-col w-[300px] h-[450px] m-2 p-2 border rounded 4xl cursor-pointer mix-blend-darken text-zinc-700 hover:text-zinc-500 hover:shadow-md transition"
+        className="relative flex flex-col w-[300px] h-[450px] m-2 p-2 border rounded-3xl 4xl cursor-pointer text-zinc-700 hover:bg-[rgba(0,0,0,0.03)] hover:text-[var(--main-clr)] overflow-hidden"
         onMouseEnter={() => {
           setHover(true);
         }}
@@ -29,13 +29,15 @@ export default function Product({ data }: Props) {
             hover ? "2" : "1"
           }.jpg`)}
           alt={data.name}
-          className="overflow-hidden"
+          className="overflow-hidden mix-blend-darken"
         />
-        <span className="text-xl font-semibold h-[70px] overflow-hidden">
+
+        <h1 className="text-2xl font-medium h-[70px] overflow-hidden">
           {data.name}
-        </span>
+        </h1>
+
         {data.tag && (
-          <div className="text-md w-fit bg-red-600 text-white bold p-[0.2em] px-[1em] rounded opacity-70">
+          <div className="absolute bottom-0 left-0 text-md w-full bg-[var(--accent-clr2)] text-white font-medium p-[0.2em] px-[1em]">
             {data.tag}
           </div>
         )}

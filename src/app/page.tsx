@@ -10,10 +10,10 @@ export default function Home() {
     return p.tag !== undefined;
   });
   return (
-    <div className="flex flex-col justify-center items-center mb-[120px]">
+    <div className="flex flex-col justify-center items-center mb-[120px] text-[var(--main-clr)]">
       <div className="flex items-center justify-center my-[10vh] w-full">
-        <h2 className="break-normal text-6xl text-[var(--accent-clr2)] max-w-xl m-[2em]">
-          Give Your Pet the Gift of Good Health with LovingTails Supplements
+        <h2 className="break-normal text-5xl max-w-2xl m-[2em] leading-snug">
+          Give Your Pet the Gift of Good Health with LovingTails Supplements!
         </h2>
         <Image
           className="hidden max-w-[800px] xl:block"
@@ -31,7 +31,7 @@ export default function Home() {
           src={require("../../public/bone.png")}
           alt="bone"
         />
-        <p className="max-w-[1200px] text-2xl text-justify text-[var(--accent-clr2)]">
+        <p className="max-w-[1200px] text-2xl text-center leading-loose">
           At LovingTails, we believe that good health is the foundation of
           happiness and longevity for pets. That&apos;s why we&apos;ve developed
           a line of premium supplements that are designed to provide your pet
@@ -39,7 +39,7 @@ export default function Home() {
         </p>
       </div>
       <div className="w-full flex flex-col justify-center items-center py-[12em]">
-        <span className="text-3xl text-[var(--accent-clr2)] font-medium max-w-[1200px] text-center">
+        <span className="text-3xl font-medium max-w-[1200px] text-center">
           Our premium supplements are formulated to provide your pet with the
           nutrients they need to thrive. Try them today and see the difference!
         </span>
@@ -50,13 +50,13 @@ export default function Home() {
         </div>
         <Link
           href={"/store"}
-          className="bg-[var(--accent-clr1)] p-3 rounded hover:bg-[var(--accent-clr2)] hover:text-white w-fit"
+          className="bg-[var(--accent-clr2)] px-[2em] py-[1em] rounded-2xl hover:bg-[var(--accent-clr3)] text-white w-fit font-semibold"
         >
           Visit Store
         </Link>
       </div>
       <div className="flex flex-col w-full justify-center items-center p-[3em] text-xl text-justify">
-        <span className="max-w-[1200px] text-2xl text-justify text-zinc-600">
+        <span className="max-w-[1200px] text-2xl text-center leading-loose">
           Our supplements are made with only the highest quality ingredients and
           are formulated to meet the unique nutritional needs of pets. From our
           Salmon Oil that supports healthy skin and coat to our Joint & Hip
@@ -65,7 +65,7 @@ export default function Home() {
         </span>
       </div>
       <div className="flex flex-col items-center p-[3em] my-[5em] w-full">
-        <div className="text-center text-3xl text-[var(--accent-clr2)] font-medium m-[1em]">
+        <div className="text-center text-3xl font-medium m-[1em]">
           Here are some of our satisfied customers!
         </div>
         <div className="flex justify-center flex-wrap">

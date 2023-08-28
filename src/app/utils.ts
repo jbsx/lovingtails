@@ -5,6 +5,7 @@ export interface dbType {
   price: number;
   tag?: string;
   links: Array<string>;
+  desc: string;
 }
 
 export function importimgs(
