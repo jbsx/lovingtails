@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 :root {
+  --background-hex: #f4f4ed;
   --main-clr: #192733;
-  --accent-clr1: #6b84ab;
+  --accent-clr1: #5f7699;
   --accent-clr2: #ce657d;
   --accent-clr3: #dba74f;
 }

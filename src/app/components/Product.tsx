@@ -14,7 +14,9 @@ export default function Product({ data }: Props) {
   return (
     <Link href={`/store/${data.name}`}>
       <div
-        className="relative flex flex-col w-[300px] h-[450px] m-2 p-2 border rounded-3xl 4xl cursor-pointer text-zinc-700 hover:bg-[rgba(0,0,0,0.03)] hover:text-[var(--main-clr)] overflow-hidden"
+        className="relative flex flex-col justify-center items-center w-[400px] h-[550px] m-[1px] p-[1em]
+                   hover:border hover:border-[var(--accent-clr3)] cursor-pointer text-zinc-700 bg-[rgba(0,0,0,0.03)]
+                hover:bg-[var(--backgound-hex)] hover:text-[var(--main-clr)] sm:w-fit sm:h-fit sm:pb-[50px]"
         onMouseEnter={() => {
           setHover(true);
         }}
@@ -29,22 +31,22 @@ export default function Product({ data }: Props) {
             hover ? "2" : "1"
           }.jpg`)}
           alt={data.name}
-          className="overflow-hidden mix-blend-darken"
+          className="overflow-hidden mix-blend-darken max-h-[300px]"
         />
 
-        <h1 className="text-2xl font-medium h-[70px] overflow-hidden">
+        <h1 className="text-xl font-medium my-[1em] overflow-hidden">
           {data.name}
         </h1>
+
+        <span className="text-3xl font-semibold">
+          {data.price == -1 ? "Out of stock" : `₹ ${data.price}`}
+        </span>
 
         {data.tag && (
           <div className="absolute bottom-0 left-0 text-md w-full bg-[var(--accent-clr2)] text-white font-medium p-[0.2em] px-[1em]">
             {data.tag}
           </div>
         )}
-
-        <span className="text-3xl">
-          {data.price == -1 ? "Out of stock" : `INR ${data.price}`}
-        </span>
       </div>
     </Link>
   );

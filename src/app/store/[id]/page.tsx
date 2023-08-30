@@ -28,7 +28,7 @@ export default function ProductPage({ params }: ParamsType) {
       <div className="flex flex-col m-[4em] max-w-[1000px]">
         <h1 className="text-3xl font-medium my-[1em]">{p.name}</h1>
         {p.tag && (
-          <h3 className="text-md w-fit bg-red-600 text-white bold p-[0.2em] px-[1em] rounded opacity-70">
+          <h3 className="text-md w-fit bg-[var(--accent-clr2)] text-white bold p-[0.2em] px-[1em]">
             {p.tag}
           </h3>
         )}
@@ -39,7 +39,7 @@ export default function ProductPage({ params }: ParamsType) {
 
         <div>
           <a target="_blank" href={p.links[0]}>
-            <div className="flex items-center justify-center w-fit px-[4em] py-[1em] hover:bg-[#221f1f] text-white border-2 rounded-lg border-black">
+            <div className="flex items-center justify-center w-fit px-[4em] py-[1em] hover:bg-[#221f1f] text-white border-2 border-black">
               <Image
                 width={50}
                 height={50}
