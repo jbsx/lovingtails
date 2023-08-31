@@ -23,9 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <Navbar />
-        <div className="min-h-[calc(100vh-275px)] text-[var(--main-clr)]">
-          {children}
-        </div>
+        <div className="min-h-[calc(100vh-275px)]">{children}</div>
         <Footer />
       </body>
     </html>

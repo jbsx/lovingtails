@@ -16,7 +16,7 @@ export default function Product({ data }: Props) {
       <div
         className="relative flex flex-col justify-center items-center w-[400px] h-[550px] m-[1px] p-[1em]
                    hover:border hover:border-[var(--accent-clr3)] cursor-pointer text-zinc-700 bg-[rgba(0,0,0,0.03)]
-                hover:bg-[var(--backgound-hex)] hover:text-[var(--main-clr)] sm:w-fit sm:h-fit sm:pb-[50px]"
+                hover:bg-[var(--backgound-hex)] hover:text-[var(--main-clr)] sm:w-screen sm:h-fit sm:pb-[50px]"
         onMouseEnter={() => {
           setHover(true);
         }}

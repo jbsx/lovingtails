@@ -25,7 +25,7 @@ export default function ProductPage({ params }: ParamsType) {
   return (
     <div className="mix-blend-darken flex flex-wrap justify-center items-center">
       <ImagePreview p={p} paths={paths} />
-      <div className="flex flex-col m-[4em] max-w-[1000px]">
+      <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
         <h1 className="text-3xl font-medium my-[1em]">{p.name}</h1>
         {p.tag && (
           <h3 className="text-md w-fit bg-[var(--accent-clr2)] text-white bold p-[0.2em] px-[1em]">

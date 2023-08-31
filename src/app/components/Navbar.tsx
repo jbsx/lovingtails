@@ -45,17 +45,8 @@ export default function Navbar() {
         >
           Store
         </Link>
-        <Link
-          className="p-3 m-2 w-[100]"
-          href={"/contact"}
-          onClick={() => {
-            setHmenu(true);
-          }}
-        >
-          Contact
-        </Link>
       </div>
-      <div className="hidden lg:block transitions-all">
+      <div className="hidden lg:block">
         {hmenu ? (
           <Menu
             isVisible={hmenu}
@@ -82,15 +73,6 @@ export default function Navbar() {
             }}
           >
             Store
-          </Link>
-          <Link
-            className="p-3 m-2 w-[100]"
-            href={"/contact"}
-            onClick={() => {
-              setHmenu(!hmenu);
-            }}
-          >
-            Contact
           </Link>
         </div>
       )}

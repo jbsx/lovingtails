@@ -11,10 +11,12 @@ export default function Home() {
     return p.tag !== undefined;
   });
   return (
-    <div className="flex flex-col items-center justify-center ">
+    <div className="flex flex-col items-center justify-center">
       <div className="flex items-center justify-center my-[10vh] w-full">
         <h2 className="break-normal text-5xl max-w-2xl m-[2em] leading-snug md:text-4xl">
-          Give Your Pet the Gift of Good Health with LovingTails Supplements!
+          Give Your Pet the Gift of Good Health with{" "}
+          <span className="text-[var(--accent-clr3)]">LovingTails</span>{" "}
+          Supplements!
         </h2>
         <Image
           className="max-w-[800px] lg:hidden"
@@ -28,7 +30,7 @@ export default function Home() {
       <img
         src={ribbon.src}
         alt="ribbon"
-        className="absolute top-[40vh] opacity-[60%] z-[-1]"
+        className="absolute top-[40vh] opacity-[60%] z-[-1] lg:hidden w-full"
       />
 
       <div className="w-full my-[20vh] flex justify-center items-center p-5">
@@ -40,7 +42,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="w-full flex flex-col justify-center items-center py-[12em]">
+      <div className="w-full flex flex-col justify-center items-center py-[12em] text-[var(--accent-clr2)]">
         <span className="text-3xl font-medium max-w-[1200px] text-center">
           Our premium supplements are formulated to provide your pet with the
           nutrients they need to thrive. Try them today and see the difference!
@@ -58,14 +60,9 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className="p-[2em] my-[5em] text-xl text-justify bg-[var(--accent-clr3)] max-w-[1200px] relative">
-        <Image
-          src={require("../../public/bowl.jpg")}
-          alt="bowl"
-          className="mix-blend-darken absolute w-[15vw] min-w-[200px] opacity-[15%] 
-                    left-[50%] top-[70%] transform translate-x-[-50%] translate-y-[-50%] sm:hidden"
-        />
-        <div className="text-2xl leading-loose p-[2em] text-center">
+      <div className="my-[5em] text-xl text-justify bg-[var(--accent-clr3)] max-w-[1200px] relative py-[2em] z-[-2]">
+        <div className="text-2xl leading-loose p-[2em] text-center sm:p-[0.5em] sm:text-xl">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url(../../public/bowl.png)] bg-origin-content bg-[length:80px_60px] z-[-1] opacity-[10%]"></div>
           Our supplements are made with only the highest quality ingredients and
           are formulated to meet the unique nutritional needs of pets. From our
           Salmon Oil that supports healthy skin and coat to our Joint & Hip
