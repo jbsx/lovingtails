@@ -2,7 +2,7 @@ import Image from "next/image";
 import Milo from "../../../public/milo.png";
 export default function Testimonial() {
   return (
-    <div className="max-w-[600px] flex flex-col justify-center items-center bg-[var(--main-clr)] p-[2em] m-[1em] text-white sm:w-screen">
+    <div className="max-w-[600px] flex flex-col justify-center items-center bg-[var(--accent-clr1)] p-[2em] m-[1em] text-white sm:w-screen">
       <Image
         width={150}
         height={150}

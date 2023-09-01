@@ -15,8 +15,8 @@ export default function Product({ data }: Props) {
     <Link href={`/store/${data.name}`}>
       <div
         className="relative flex flex-col justify-center items-center w-[400px] h-[550px] m-[1px] p-[1em]
-                   hover:border hover:border-[var(--accent-clr3)] cursor-pointer text-zinc-700 bg-[rgba(0,0,0,0.03)]
-                hover:bg-[var(--backgound-hex)] hover:text-[var(--main-clr)] sm:w-screen sm:h-fit sm:pb-[50px]"
+                   hover:border hover:border-[var(--accent-clr1)] cursor-pointer text-zinc-700 bg-[rgba(0,0,0,0.03)]
+                hover:bg-[var(--backgound-hex)] hover:text-[var(--accent-clr1)] sm:w-screen sm:h-fit sm:pb-[50px]"
         onMouseEnter={() => {
           setHover(true);
         }}
@@ -43,7 +43,11 @@ export default function Product({ data }: Props) {
         </span>
 
         {data.tag && (
-          <div className="absolute bottom-0 left-0 text-md w-full bg-[var(--accent-clr2)] text-white font-medium p-[0.2em] px-[1em]">
+          <div
+            className={`absolute bottom-0 left-0 text-md w-full ${
+              hover ? "bg-[var(--accent-clr1)]" : "bg-[var(--accent-clr2)]"
+            } text-white font-medium p-[0.2em] px-[1em]`}
+          >
             {data.tag}
           </div>
         )}

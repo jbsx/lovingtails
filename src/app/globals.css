@@ -4,10 +4,8 @@
 
 :root {
   --background-hex: #f4f4ed;
-  --main-clr: #192733;
-  --accent-clr1: #5f7699;
-  --accent-clr2: #ce657d;
-  --accent-clr3: #dba74f;
+  --accent-clr1: #003153;
+  --accent-clr2: #cc9639; /* ce657d */
 }
 
 body {

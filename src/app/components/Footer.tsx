@@ -1,7 +1,7 @@
 import Link from "next/link";
 export default function Footer() {
   return (
-    <div className="bg-[var(--main-clr)] text-zinc-200 flex flex-col justify-center items-center font-medium">
+    <div className="bg-[var(--accent-clr2)] text-zinc-200 flex flex-col justify-center items-center font-medium">
       <div className="flex flex-wrap w-screen max-w-[1000px] justify-around">
         <div className="flex flex-col flex-wrap m-[2em]">
           <span className="font-bold">Contact Us:</span>
@@ -18,7 +18,6 @@ export default function Footer() {
             </Link>
             <Link href={"https://www.facebook.com"}>Facebook</Link>
             <Link href={"https://www.twitter.com"}>Twitter</Link>
-            <Link href={"/"}>Threads</Link>
           </div>
         </div>
       </div>

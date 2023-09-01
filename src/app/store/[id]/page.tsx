@@ -26,15 +26,15 @@ export default function ProductPage({ params }: ParamsType) {
     <div className="mix-blend-darken flex flex-wrap justify-center items-center">
       <ImagePreview p={p} paths={paths} />
       <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
-        <h1 className="text-3xl font-medium my-[1em]">{p.name}</h1>
+        <h1 className="text-3xl font-semibold my-[1em]">{p.name}</h1>
         {p.tag && (
           <h3 className="text-md w-fit bg-[var(--accent-clr2)] text-white bold p-[0.2em] px-[1em]">
             {p.tag}
           </h3>
         )}
         <p className="text-xl break-normal">{p.desc}</p>
-        <h2 className="text-3xl my-[1em]">
-          {p.price == -1 ? "Out of stock" : `INR ${p.price}`}
+        <h2 className="text-3xl text-[var(--accent-clr1)] font-semibold my-[1em]">
+          {p.price == -1 ? "Out of stock" : `₹ ${p.price}`}
         </h2>
 
         <div>

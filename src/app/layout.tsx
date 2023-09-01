@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="w-screen overflow-x-hidden">
       <body className={poppins.className}>
         <Navbar />
         <div className="min-h-[calc(100vh-275px)]">{children}</div>

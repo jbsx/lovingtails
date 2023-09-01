@@ -13,7 +13,7 @@ export default function Navbar() {
   const [hmenu, setHmenu] = useState(true);
 
   return (
-    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr1)] font-bold text-xl px-4">
+    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr1)] font-bold text-xl px-4 w-screen">
       <Link
         href={"/"}
         onClick={() => {
@@ -28,9 +28,7 @@ export default function Navbar() {
             alt="Logo"
             className="w-[80px]"
           />
-          <h1
-            className={`text-5xl m-[1em] text-[var(--main-clr)] ${mulish.className} sm:hidden`}
-          >
+          <h1 className={`text-5xl m-[1em] ${mulish.className} sm:hidden`}>
             LovingTails
           </h1>
         </div>
@@ -44,6 +42,15 @@ export default function Navbar() {
           }}
         >
           Store
+        </Link>
+        <Link
+          className="p-3 m-2 w-[100]"
+          href={"/contacts"}
+          onClick={() => {
+            setHmenu(true);
+          }}
+        >
+          Contacts
         </Link>
       </div>
       <div className="hidden lg:block">
@@ -64,7 +71,7 @@ export default function Navbar() {
         )}
       </div>
       {!hmenu && (
-        <div className="absolute top-[152px] left-0 w-screen h-screen backdrop-blur-xl pt-[100px] flex flex-col text-4xl z-[999] text-[var(--main-clr)]">
+        <div className="absolute top-[152px] left-0 w-screen h-screen backdrop-blur-xl pt-[100px] flex flex-col text-4xl z-[999] text-[var(--accent-clr1)]">
           <Link
             className="p-3 m-2 w-[100]"
             href={"/store"}
@@ -73,6 +80,15 @@ export default function Navbar() {
             }}
           >
             Store
+          </Link>
+          <Link
+            className="p-3 m-2 w-[100]"
+            href={"/contacts"}
+            onClick={() => {
+              setHmenu(!hmenu);
+            }}
+          >
+            Contacts
           </Link>
         </div>
       )}
