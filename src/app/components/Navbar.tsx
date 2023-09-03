@@ -7,7 +7,7 @@ const mulish = Mulish({ subsets: ["latin"] });
 
 export default function Navbar() {
   return (
-    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4 w-screen bg-[rgba(0,0,0,0.1)]">
+    <div className="flex justify-around items-center p-4 text-center text-white font-bold text-xl px-4 w-screen bg-[var(--accent-clr2)]">
       <Link href={"/"}>
         <div className="flex items-center">
           <Image
