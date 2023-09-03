@@ -15,7 +15,7 @@ export default function Home() {
       <div className="flex items-center justify-center my-[10vh] w-full">
         <h2 className="break-normal text-5xl max-w-2xl leading-snug md:text-4xl mx-[2em]">
           Give Your Pet the Gift of Good Health with{" "}
-          <span className="text-[var(--accent-clr2)]">LovingTails</span>{" "}
+          <span className="text-[var(--accent-clr1)]">LovingTails</span>{" "}
           Supplements!
         </h2>
         <Image
@@ -27,7 +27,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="my-[15vh] text-xl text-justify bg-[var(--accent-clr1)] max-w-[1200px] relative py-[2em] z-[2] text-white font-medium">
+      <div className="my-[15vh] text-xl text-justify bg-[var(--accent-clr2)] max-w-[1200px] relative py-[2em] z-[2] text-white font-medium">
         <div className="text-2xl leading-loose p-[2em] text-center sm:p-[0.5em] sm:text-xl">
           <div className="absolute top-0 left-0 w-full h-full bg-[url(../../public/bowl_white.png)] bg-origin-content bg-[length:60px_40px] z-[-1] opacity-[10%]"></div>
           At LovingTails, we believe that good health is the foundation of

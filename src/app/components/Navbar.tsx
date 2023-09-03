@@ -13,7 +13,7 @@ export default function Navbar() {
   const [hmenu, setHmenu] = useState(true);
 
   return (
-    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr1)] font-bold text-xl px-4 w-screen">
+    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4 w-screen">
       <Link
         href={"/"}
         onClick={() => {
@@ -35,7 +35,7 @@ export default function Navbar() {
       </Link>
       <div className="lg:hidden text-2xl font-medium uppercase">
         <Link
-          className="p-3 m-2 w-[100] transition-opacity hover:underline"
+          className="p-3 m-2 w-[100] transition-opacity"
           href={"/store"}
           onClick={() => {
             setHmenu(true);
