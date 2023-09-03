@@ -35,7 +35,7 @@ export default function Navbar() {
       </Link>
       <div className="lg:hidden text-2xl font-medium uppercase">
         <Link
-          className="p-3 m-2 w-[100]"
+          className="p-3 m-2 w-[100] transition-opacity hover:underline"
           href={"/store"}
           onClick={() => {
             setHmenu(true);
@@ -71,7 +71,7 @@ export default function Navbar() {
         )}
       </div>
       {!hmenu && (
-        <div className="absolute top-[152px] left-0 w-screen h-screen backdrop-blur-xl pt-[100px] flex flex-col text-4xl z-[999] text-[var(--accent-clr1)]">
+        <div className="absolute top-[152px] left-0 w-full h-full backdrop-blur-xl pt-[100px] flex flex-col text-4xl z-[999] text-[var(--accent-clr1)]">
           <Link
             className="p-3 m-2 w-[100]"
             href={"/store"}

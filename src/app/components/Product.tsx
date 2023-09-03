@@ -14,7 +14,7 @@ export default function Product({ data }: Props) {
   return (
     <Link href={`/store/${data.name}`}>
       <div
-        className="relative flex flex-col justify-center items-center w-[400px] h-[550px] m-[1px] p-[1em]
+        className="relative flex flex-col justify-center items-center w-[400px] h-[550px] p-[1em]
                    hover:border hover:border-[var(--accent-clr1)] cursor-pointer text-zinc-700 bg-[rgba(0,0,0,0.03)]
                 hover:bg-[var(--backgound-hex)] hover:text-[var(--accent-clr1)] sm:w-screen sm:h-fit sm:pb-[50px]"
         onMouseEnter={() => {
@@ -34,14 +34,19 @@ export default function Product({ data }: Props) {
           className="overflow-hidden mix-blend-darken max-h-[300px]"
         />
 
-        <h1 className="text-xl font-medium my-[1em] overflow-hidden">
-          {data.name}
-        </h1>
+        <div
+          className={`${
+            hover ? "translate-y-[-20px]" : ""
+          } transition-all w-full`}
+        >
+          <h1 className="text-xl font-medium my-[1em] overflow-hidden">
+            {data.name}
+          </h1>
 
-        <span className="text-3xl font-semibold">
-          {data.price == -1 ? "Out of stock" : `₹ ${data.price}`}
-        </span>
-
+          <span className="text-3xl font-semibold">
+            {data.price == -1 ? "Out of stock" : `₹ ${data.price}`}
+          </span>
+        </div>
         {data.tag && (
           <div
             className={`absolute bottom-0 left-0 text-md w-full ${

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background-hex: #f4f4ed;
+  --background-hex: #f9f9f2;
   --accent-clr1: #003153;
   --accent-clr2: #cc9639; /* ce657d */
 }

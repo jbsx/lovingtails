@@ -5,7 +5,7 @@ import { dbType } from "../utils";
 export default function Store() {
   return (
     <div className="flex flex-col justify-center items-center m-5 p-5">
-      <div className="container flex flex-wrap justify-center max-w-[2000px]">
+      <div className="container flex flex-wrap justify-center max-w-[2000px] gap-[2px]">
         {db.Products.map((product: dbType) => {
           return <Product data={product} key={product.name} />;
         })}
