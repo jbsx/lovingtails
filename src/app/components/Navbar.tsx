@@ -7,7 +7,7 @@ const mulish = Mulish({ subsets: ["latin"] });
 
 export default function Navbar() {
   return (
-    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4 w-screen">
+    <div className="flex justify-around items-center p-4 text-center text-[var(--accent-clr2)] font-bold text-xl px-4 w-screen bg-[rgba(0,0,0,0.1)]">
       <Link href={"/"}>
         <div className="flex items-center">
           <Image
@@ -17,11 +17,16 @@ export default function Navbar() {
             alt="Logo"
             className="w-[80px]"
           />
-          <h1
-className={`text-5xl m-[1em] ${mulish.className} md:text-4xl sm:text-3xl`}
-          >
-            LovingTails
-          </h1>
+          <div className="flex flex-col gap-[5px]">
+            <h1
+              className={`text-5xl mx-[1em] ${mulish.className} md:text-4xl sm:text-3xl`}
+            >
+              LovingTails
+            </h1>
+            <h2 className="text-base font-semibold text-[var(--accent-clr1)]">
+              Healthy Pets Endless Joy
+            </h2>
+          </div>
         </div>
       </Link>
       <div className="lg:hidden flex text-2xl font-medium uppercase transition-all">

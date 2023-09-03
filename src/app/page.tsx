@@ -13,9 +13,11 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex items-center justify-center my-[10vh] w-full">
-        <h2 className="break-normal text-5xl max-w-2xl leading-snug md:text-4xl mx-[2em]">
+        <h2 className="break-normal text-5xl max-w-xl leading-snug tracking-wider md:text-4xl mx-[2em]">
           Give Your Pet the Gift of Good Health with{" "}
-          <span className="text-[var(--accent-clr1)]">LovingTails</span>{" "}
+          <span className="text-[var(--accent-clr1)] font-medium">
+            LovingTails
+          </span>{" "}
           Supplements!
         </h2>
         <Image
