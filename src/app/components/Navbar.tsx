@@ -1,9 +1,9 @@
 import Logo from "../../../public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import { Mulish } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-const mulish = Mulish({ subsets: ["latin"] });
+const manrope = Manrope({ subsets: ["latin"] });
 
 export default function Navbar() {
   return (
@@ -19,7 +19,7 @@ export default function Navbar() {
           />
           <div className="flex flex-col gap-[5px]">
             <h1
-              className={`text-5xl mx-[1em] ${mulish.className} md:text-4xl sm:text-3xl`}
+              className={`text-5xl mx-[1em] ${manrope.className} md:text-4xl sm:text-3xl font-bold`}
             >
               LovingTails
             </h1>

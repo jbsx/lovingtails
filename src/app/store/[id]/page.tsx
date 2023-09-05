@@ -23,7 +23,7 @@ export default function ProductPage({ params }: ParamsType) {
   );
 
   return (
-    <div className="mix-blend-darken flex flex-wrap justify-center items-center">
+    <div className="mix-blend-darken flex flex-wrap justify-center items-center mt-[2em]">
       <ImagePreview p={p} paths={paths} />
       <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
         <h1 className="text-3xl font-semibold my-[1em]">{p.name}</h1>

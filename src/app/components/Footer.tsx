@@ -2,7 +2,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <div className="bg-[var(--accent-clr2)] text-zinc-200 flex flex-col justify-center items-center font-medium">
-      <div className="flex flex-wrap w-screen max-w-[1000px] justify-around">
+      <div className="flex flex-wrap w-screen max-w-[1000px] justify-around sm:justify-normal">
         <div className="flex flex-col flex-wrap m-[2em]">
           <span className="font-bold">Contact Us:</span>
           +91-XXXXXXXXXX
