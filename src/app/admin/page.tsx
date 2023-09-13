@@ -1,10 +1,6 @@
-"use client";
 import AddProduct from "../components/AddProduct";
-import { useState } from "react";
 
 export default function admin() {
-  const currtab = useState("add");
-
   return (
     <div className="flex flex-col gap-[10px] items-center">
       <div className="flex gap-[5px] w-[1000px] m-2 lg:w-full text-center">

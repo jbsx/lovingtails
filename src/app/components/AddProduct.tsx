@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import "@uploadthing/react/styles.css";
 
 import { UploadDropzone } from "../utils/uploadthing";
@@ -12,6 +13,8 @@ export default function AddProduct() {
     tag: "",
     link: "",
   });
+
+  const [images, setImages] = useState<Array<string>>([]);
 
   const handleSubmit = async () => {
     //ZOD validation
@@ -34,7 +37,7 @@ export default function AddProduct() {
 
   return (
     <div className="w-[600px] lg:w-full p-2">
-      <h1 className="text-2xl font-semibold text-[var(--accent-clr2)]">
+      <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
         Add Product
       </h1>
       <form
@@ -107,10 +110,20 @@ export default function AddProduct() {
         ></input>
 
         <label>Images:</label>
+        {images.map((i) => {
+          return (
+            <Image src={i} alt={`${i}`} width={150} height={150} key={i} />
+          );
+        })}
         <UploadDropzone
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
             // Do something with the response
+            res?.forEach((i) => {
+              setImages((imgs) => {
+                return [...imgs, i.url];
+              });
+            });
             console.log("Files: ", res);
             alert("Upload Completed");
           }}
@@ -121,7 +134,7 @@ export default function AddProduct() {
         />
 
         <button
-          className="cursor-pointer text-[var(--accent-clr2)] max-w-[300px] hover:bg-[var(--accent-clr2)]
+          className="cursor-pointer text-[var(--accent-clr2)] max-w-[200px] hover:bg-[var(--accent-clr2)]
                     hover:text-white p-4 uppercase text-xl font-semibold border-[4px] border-[var(--accent-clr2)]"
           type="submit"
         >
