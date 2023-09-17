@@ -1,21 +1,17 @@
 "use client";
 import { useState } from "react";
-import ImageReorder from "./ImageReorder";
+import Image from "next/image";
 import Msg from "./Msg";
-import { dataSchema } from "../utils/zodTypes";
-import { z } from "zod";
-import Compressor from "compressorjs";
 
-export default function AddProduct() {
-  const [formData, setFormData] = useState<z.infer<typeof dataSchema>>({
+export default function UpdateProduct() {
+  const [formData, setFormData] = useState({
     title: "",
-    price: 0,
+    price: "",
     desc: "",
     tag: "",
     amznlink: "",
+    images: Array<File>(8),
   });
-
-  const [images, setImages] = useState<Array<File>>([]);
 
   const [msg, setMsg] = useState<{ type: "S" | "E"; message: string } | null>(
     null,
@@ -24,17 +20,6 @@ export default function AddProduct() {
   const handleSubmit = async () => {
     //ZOD validation
     //Upload images on Uploadthing
-    fetch("http://localhost:3000/api/db/uploadImages", {
-      method: "POST",
-      mode: "same-origin",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(images),
-    });
-
     //POST on /api/db/addProduct
     const res = await fetch("http://localhost:3000/api/db/addProduct", {
       method: "POST",
@@ -46,24 +31,20 @@ export default function AddProduct() {
       },
       body: JSON.stringify(formData),
     });
-
-    const data = await res.json();
-
-    if (data.success) {
+    const temp = await res.json();
+    if (temp.success) {
       setMsg({
         type: "S",
         message: "Product Added",
       });
-
       setFormData({
         title: "",
-        price: 0,
+        price: "",
         desc: "",
         tag: "",
         amznlink: "",
+        images: [],
       });
-    } else {
-      setMsg({ type: "E", message: data.message });
     }
   };
 
@@ -72,7 +53,7 @@ export default function AddProduct() {
   return (
     <div className="w-[600px] lg:w-full p-2">
       <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
-        Add Product
+        Update Product
       </h1>
       {msg && <Msg type={msg.type} message={msg.message} />}
       <form
@@ -116,8 +97,8 @@ export default function AddProduct() {
           name="price"
           value={formData.price}
           className={inputcss}
-          onChange={(event) => {
-            setFormData({ ...formData, price: parseFloat(event.target.value) });
+          onChange={(prev) => {
+            setFormData({ ...formData, price: prev.target.value });
           }}
         ></input>
 
@@ -145,14 +126,13 @@ export default function AddProduct() {
         ></input>
 
         <label>Images (upto 8):</label>
-        <ImageReorder files={images} setFiles={setImages} />
         <input
           type="file"
           multiple
           onChange={(e) => {
-            setImages((data) => {
-              if (e.target.files) {
-                return [...data, ...e.target.files];
+            setFormData((data) => {
+              if (e.target.files && e.target.files[0]) {
+                return { ...data, images: [...data.images, e.target.files[0]] };
               } else {
                 //dont change
                 return data;
@@ -160,51 +140,24 @@ export default function AddProduct() {
             });
           }}
         ></input>
-
-        <button
-          type="button"
-          onClick={() => {
-            const body = new FormData();
-
-            const compressPromises = images.map((i) => {
-              return new Promise((resolve, reject) => {
-                new Compressor(i, {
-                  quality: 0.4,
-                  success(smallImg) {
-                    resolve(structuredClone(smallImg) as File);
-                  },
-                  error(e) {
-                    reject(e);
-                  },
-                });
-              });
-            });
-
-            Promise.all(compressPromises)
-              .then((compressedImages) => {
-                compressedImages.forEach((i, idx) => {
-                  body.append(`${idx}`, i as File, `${idx}`);
-                });
-                fetch("http://localhost:3000/api/db/uploadImages", {
-                  method: "POST",
-                  mode: "same-origin",
-                  cache: "no-cache",
-                  credentials: "same-origin",
-                  body,
-                });
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          }}
-        >
-          upload
-        </button>
+        <div className="flex flex-wrap gap-[10px]">
+          {formData.images.map((i) => {
+            console.log(i);
+            return (
+              <Image
+                src={URL.createObjectURL(i)}
+                alt={`${i}`}
+                width={150}
+                height={150}
+                key={i.name}
+              />
+            );
+          })}
+        </div>
 
         <button
           className="cursor-pointer text-[var(--accent-clr2)] max-w-[200px] hover:bg-[var(--accent-clr2)]
-                    hover:text-white p-4 uppercase text-xl font-semibold border-[4px] border-[var(--accent-clr2)]
-                    outline-none"
+                    hover:text-white p-4 uppercase text-xl font-semibold border-[4px] border-[var(--accent-clr2)]"
           type="submit"
         >
           Add

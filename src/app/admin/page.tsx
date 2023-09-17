@@ -1,20 +1,43 @@
+"use client";
 import AddProduct from "../components/AddProduct";
+import { useState } from "react";
+import UpdateProduct from "../components/UpdateProduct";
+import DeleteProduct from "../components/DeleteProduct";
 
 export default function admin() {
+  const [curr, setCurr] = useState("Add");
+
   return (
-    <div className="flex flex-col gap-[10px] items-center">
-      <div className="flex gap-[5px] w-[1000px] m-2 lg:w-full text-center">
-        <div className="w-full p-[10px] border hover:bg-[var(--accent-clr2)] cursor-pointer">
+    <div className="flex flex-col items-center my-5">
+      <div className="flex flex-wrap justify-center gap-[5px] w-[1000px] lg:w-full text-center select-none">
+        <div
+          className={`p-[10px] border hover:bg-[var(--accent-clr2)] cursor-pointer ${
+            curr === "Add" ? "bg-[var(--accent-clr2)] text-white" : ""
+          }`}
+          onClick={() => setCurr("Add")}
+        >
           Add Product
         </div>
-        <div className="w-full p-[10px] border hover:bg-[var(--accent-clr2)] cursor-pointer">
+        <div
+          className={`p-[10px] border hover:bg-[var(--accent-clr2)] cursor-pointer ${
+            curr === "Update" ? "bg-[var(--accent-clr2)] text-white" : ""
+          }`}
+          onClick={() => setCurr("Update")}
+        >
           Update Product
         </div>
-        <div className="w-full p-[10px] border hover:bg-[var(--accent-clr2)] cursor-pointer">
+        <div
+          className={`p-[10px] border hover:bg-[var(--accent-clr2)] cursor-pointer ${
+            curr === "Delete" ? "bg-[var(--accent-clr2)] text-white" : ""
+          }`}
+          onClick={() => setCurr("Delete")}
+        >
           Delete Product
         </div>
       </div>
-      <AddProduct />
+      {curr === "Add" && <AddProduct />}
+      {curr === "Update" && <UpdateProduct />}
+      {curr === "Delete" && <DeleteProduct />}
     </div>
   );
 }

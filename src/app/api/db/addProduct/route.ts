@@ -1,27 +1,40 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { ZodError, z } from "zod";
+import { dataSchema } from "@/app/utils/zodTypes";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request, res: Response) {
   try {
-    const data = await req.json();
-    const newEntry = await prisma.product.create({
+    const data = dataSchema.parse(await req.json());
+
+    const newEntry = await prisma.products.create({
       //add product
       data: {
-        id: `${Math.random()}`,
-        name: data.name,
-        price: parseFloat(data.price),
-        tag: data.tag,
+        title: data.title,
+        price: data.price,
+        tag: data.tag ? data.tag : null,
         desc: data.desc,
-        link: data.link,
+        amznlink: data.amznlink,
       },
     });
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data: newEntry });
   } catch (error) {
     console.error("Request error", error);
+    if (error instanceof ZodError) {
+      let msg = "Invalid Input: ";
+      error.issues.forEach((i) => {
+        msg += `${i.message} (${i.path.flat()}), `;
+      });
+
+      return NextResponse.json({
+        message: msg.slice(0, -2),
+        success: false,
+      });
+    }
     return NextResponse.json({
-      error: "Error creating question",
+      message: "Server Error: 500",
       success: false,
     });
   }
