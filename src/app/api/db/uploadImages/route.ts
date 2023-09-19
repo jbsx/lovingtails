@@ -7,14 +7,12 @@ export async function POST(req: Request, res: Response) {
 
     //validate files
 
-    //let bruh: File[] = [];
+    let bruh: File[] = [];
     body.forEach(async (i) => {
-      //bruh = [...bruh, i as File];
-      console.log(i);
-      console.log(await utapi.uploadFiles(i as File));
+      bruh = [...bruh, i as File];
     });
 
-    //console.log(await utapi.uploadFiles(bruh));
+    console.log(await utapi.uploadFiles(bruh));
 
     //upload
     //const response = await utapi.uploadFiles(body);

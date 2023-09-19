@@ -17,6 +17,7 @@ export async function POST(req: Request, res: Response) {
         tag: data.tag ? data.tag : null,
         desc: data.desc,
         amznlink: data.amznlink,
+        imgs: data.imgs,
       },
     });
     return NextResponse.json({ success: true, data: newEntry });

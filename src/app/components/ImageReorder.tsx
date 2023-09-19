@@ -40,7 +40,10 @@ export default function ImageReorder(params: {
             key={idx}
             className="relative"
           >
-            <div className="absolute left-0 top-0 rounded-full bg-white w-[20px] h-[20px] flex justify-center items-center text-sm">
+            <div
+              className="absolute left-[-3px] top-[-3px] flex justify-center items-center rounded-full bg-white
+                         w-[20px] h-[20px] text-sm font-medium border-2 border-[var(--accent-clr2)]"
+            >
               {idx + 1}
             </div>
             <Image
@@ -48,7 +51,7 @@ export default function ImageReorder(params: {
               alt={i.name}
               height={100}
               width={100}
-              className="aspect-square cursor-move"
+              className="aspect-square cursor-move rounded-xl"
             />
           </div>
         );

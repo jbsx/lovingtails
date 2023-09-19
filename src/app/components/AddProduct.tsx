@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
-import ImageReorder from "./ImageReorder";
+import { useRef, useState } from "react";
 import Msg from "./Msg";
 import { dataSchema } from "../utils/zodTypes";
 import { z } from "zod";
-import Compressor from "compressorjs";
+import { CustomUploader } from "./CustomUploader";
+import { useUploadThing } from "../utils/uploadthing";
+import { compressMany } from "../utils/imgProcessing";
+import Loading from "./Loading";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState<z.infer<typeof dataSchema>>({
@@ -13,29 +15,66 @@ export default function AddProduct() {
     desc: "",
     tag: "",
     amznlink: "",
+    imgs: "",
   });
 
-  const [images, setImages] = useState<Array<File>>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const imgs = useRef("");
+
+  const [loading, setLoading] = useState(false);
 
   const [msg, setMsg] = useState<{ type: "S" | "E"; message: string } | null>(
     null,
   );
 
+  //Custom Uploader
+  const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
+    onClientUploadComplete: (res) => {
+      imgs.current = "";
+      res?.forEach((i) => {
+        imgs.current += `${i.key}|`;
+      });
+      imgs.current = imgs.current.slice(0, -1);
+    },
+    onUploadError: (e) => {
+      alert(e);
+    },
+  });
+
   const handleSubmit = async () => {
+    setLoading(true);
+
     //ZOD validation
-    //Upload images on Uploadthing
-    fetch("http://localhost:3000/api/db/uploadImages", {
-      method: "POST",
-      mode: "same-origin",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(images),
+
+    //Uploadthing
+    const smallFiles = await compressMany(files);
+
+    const verify = new Promise((resolve, reject) => {
+      if (smallFiles.length > 8) reject();
+
+      smallFiles.forEach((i) => {
+        if (i.size >= 2_000_000) {
+          reject("Image size too large. Size Limit: 2MB");
+        }
+      });
+
+      resolve(true);
     });
 
-    //POST on /api/db/addProduct
+    await new Promise(async (resolve, reject) => {
+      try {
+        await verify;
+        resolve(startUpload(smallFiles));
+      } catch (e) {
+        reject(e);
+      }
+    }).catch((e) => alert(e));
+
+    //POST to Pscale DB
+    setFormData((prev) => {
+      return { ...prev, imgs: imgs.current };
+    });
+
     const res = await fetch("http://localhost:3000/api/db/addProduct", {
       method: "POST",
       mode: "same-origin",
@@ -61,10 +100,14 @@ export default function AddProduct() {
         desc: "",
         tag: "",
         amznlink: "",
+        imgs: "",
       });
     } else {
       setMsg({ type: "E", message: data.message });
     }
+
+    //TODO: Cleanup in case of an error
+    setLoading(false);
   };
 
   const inputcss = "min-h-[40px] rounded outline-none p-[10px] text-base";
@@ -144,62 +187,12 @@ export default function AddProduct() {
           }}
         ></input>
 
-        <label>Images (upto 8):</label>
-        <ImageReorder files={images} setFiles={setImages} />
-        <input
-          type="file"
-          multiple
-          onChange={(e) => {
-            setImages((data) => {
-              if (e.target.files) {
-                return [...data, ...e.target.files];
-              } else {
-                //dont change
-                return data;
-              }
-            });
-          }}
-        ></input>
-
-        <button
-          type="button"
-          onClick={() => {
-            const body = new FormData();
-
-            const compressPromises = images.map((i) => {
-              return new Promise((resolve, reject) => {
-                new Compressor(i, {
-                  quality: 0.4,
-                  success(smallImg) {
-                    resolve(structuredClone(smallImg) as File);
-                  },
-                  error(e) {
-                    reject(e);
-                  },
-                });
-              });
-            });
-
-            Promise.all(compressPromises)
-              .then((compressedImages) => {
-                compressedImages.forEach((i, idx) => {
-                  body.append(`${idx}`, i as File, `${idx}`);
-                });
-                fetch("http://localhost:3000/api/db/uploadImages", {
-                  method: "POST",
-                  mode: "same-origin",
-                  cache: "no-cache",
-                  credentials: "same-origin",
-                  body,
-                });
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          }}
-        >
-          upload
-        </button>
+        <label>Images:</label>
+        <CustomUploader
+          permittedFileInfo={permittedFileInfo}
+          files={files}
+          setFiles={setFiles}
+        />
 
         <button
           className="cursor-pointer text-[var(--accent-clr2)] max-w-[200px] hover:bg-[var(--accent-clr2)]
@@ -210,6 +203,7 @@ export default function AddProduct() {
           Add
         </button>
       </form>
+      <div className="w-full h-[50px]">{loading && <Loading />}</div>
     </div>
   );
 }

@@ -6,4 +6,5 @@ export const dataSchema = z.object({
   tag: z.string().optional(),
   desc: z.string().min(20),
   amznlink: z.string().url(),
+  imgs: z.string(),
 });

@@ -17,12 +17,5 @@ model Products {
   desc     String
   tag      String?
   amznlink String
-  Imgs     Imgs[]
-}
-
-model Imgs {
-  id        String   @id
-  idx       Int
-  product   Products @relation(fields: [productId], references: [id])
-  productId String
+  imgs     String
 }
