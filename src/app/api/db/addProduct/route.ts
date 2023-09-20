@@ -13,9 +13,10 @@ export async function POST(req: Request, res: Response) {
       //add product
       data: {
         title: data.title,
+        category: data.category,
+        desc: data.desc,
         price: data.price,
         tag: data.tag ? data.tag : null,
-        desc: data.desc,
         amznlink: data.amznlink,
         imgs: data.imgs,
       },

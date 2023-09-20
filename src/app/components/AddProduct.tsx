@@ -1,25 +1,23 @@
 "use client";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Msg from "./Msg";
-import { dataSchema } from "../utils/zodTypes";
-import { z } from "zod";
 import { CustomUploader } from "./CustomUploader";
 import { useUploadThing } from "../utils/uploadthing";
 import { compressMany } from "../utils/imgProcessing";
 import Loading from "./Loading";
+import { UploadFileResponse } from "uploadthing/client";
 
 export default function AddProduct() {
-  const [formData, setFormData] = useState<z.infer<typeof dataSchema>>({
+  const [formData, setFormData] = useState({
     title: "",
+    category: "",
     price: 0,
     desc: "",
     tag: "",
     amznlink: "",
-    imgs: "",
   });
 
   const [files, setFiles] = useState<File[]>([]);
-  const imgs = useRef("");
 
   const [loading, setLoading] = useState(false);
 
@@ -29,22 +27,19 @@ export default function AddProduct() {
 
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
-    onClientUploadComplete: (res) => {
-      imgs.current = "";
-      res?.forEach((i) => {
-        imgs.current += `${i.key}|`;
-      });
-      imgs.current = imgs.current.slice(0, -1);
-    },
     onUploadError: (e) => {
-      alert(e);
+      setMsg({ type: "E", message: e.message });
     },
   });
 
   const handleSubmit = async () => {
     setLoading(true);
 
-    //ZOD validation
+    //Data validation
+    if (files.length === 0) {
+      setMsg({ type: "E", message: "Please Upload Image(s)" });
+      return;
+    }
 
     //Uploadthing
     const smallFiles = await compressMany(files);
@@ -59,21 +54,30 @@ export default function AddProduct() {
       });
 
       resolve(true);
+    }).catch((e) => {
+      setMsg({ type: "E", message: e.message });
     });
 
-    await new Promise(async (resolve, reject) => {
-      try {
-        await verify;
-        resolve(startUpload(smallFiles));
-      } catch (e) {
-        reject(e);
-      }
-    }).catch((e) => alert(e));
+    const uploadedImgs: UploadFileResponse[] = (await new Promise(
+      async (resolve, reject) => {
+        try {
+          await verify;
+          resolve((await startUpload(smallFiles)) as UploadFileResponse[]);
+        } catch (e) {
+          reject(e);
+        }
+      },
+    ).catch((e) => {
+      setMsg({ type: "E", message: e.message });
+    })) as UploadFileResponse[];
 
     //POST to Pscale DB
-    setFormData((prev) => {
-      return { ...prev, imgs: imgs.current };
+
+    let imgs = "";
+    uploadedImgs.forEach((i) => {
+      imgs += `${i.key}|`;
     });
+    imgs = imgs.slice(0, -1);
 
     const res = await fetch("http://localhost:3000/api/db/addProduct", {
       method: "POST",
@@ -83,7 +87,7 @@ export default function AddProduct() {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ ...formData, imgs }),
     });
 
     const data = await res.json();
@@ -99,8 +103,8 @@ export default function AddProduct() {
         price: 0,
         desc: "",
         tag: "",
+        category: "",
         amznlink: "",
-        imgs: "",
       });
     } else {
       setMsg({ type: "E", message: data.message });
@@ -110,7 +114,7 @@ export default function AddProduct() {
     setLoading(false);
   };
 
-  const inputcss = "min-h-[40px] rounded outline-none p-[10px] text-base";
+  const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";
 
   return (
     <div className="w-[600px] lg:w-full p-2">
@@ -135,6 +139,19 @@ export default function AddProduct() {
           className={inputcss}
           onChange={(prev) => {
             setFormData({ ...formData, title: prev.target.value });
+          }}
+        ></input>
+
+        <label>
+          Category:
+          <span className="text-red-500">*</span>
+        </label>
+        <input
+          name="category"
+          value={formData.category}
+          className={inputcss}
+          onChange={(event) => {
+            setFormData({ ...formData, category: event.target.value });
           }}
         ></input>
 
@@ -187,7 +204,7 @@ export default function AddProduct() {
           }}
         ></input>
 
-        <label>Images:</label>
+        <label>Image(s):</label>
         <CustomUploader
           permittedFileInfo={permittedFileInfo}
           files={files}
@@ -199,6 +216,7 @@ export default function AddProduct() {
                     hover:text-white p-4 uppercase text-xl font-semibold border-[4px] border-[var(--accent-clr2)]
                     outline-none"
           type="submit"
+          disabled={loading}
         >
           Add
         </button>

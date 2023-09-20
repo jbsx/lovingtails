@@ -27,7 +27,7 @@ export function CustomUploader(params: {
   });
 
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div className="flex flex-col gap-2">
       <ImageReorder files={params.files} setFiles={params.setFiles} />
       <div
         {...getRootProps()}

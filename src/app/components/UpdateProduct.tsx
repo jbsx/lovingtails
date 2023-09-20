@@ -1,26 +1,84 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import Msg from "./Msg";
+import { CustomUploader } from "./CustomUploader";
+import { useUploadThing } from "../utils/uploadthing";
+import { compressMany } from "../utils/imgProcessing";
+import Loading from "./Loading";
+import { UploadFileResponse } from "uploadthing/client";
 
 export default function UpdateProduct() {
   const [formData, setFormData] = useState({
     title: "",
-    price: "",
+    category: "",
+    price: 0,
     desc: "",
     tag: "",
     amznlink: "",
-    images: Array<File>(8),
   });
+
+  const [files, setFiles] = useState<File[]>([]);
+
+  const [loading, setLoading] = useState(false);
 
   const [msg, setMsg] = useState<{ type: "S" | "E"; message: string } | null>(
     null,
   );
 
+  //Custom Uploader
+  const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
+    onUploadError: (e) => {
+      setMsg({ type: "E", message: e.message });
+    },
+  });
+
   const handleSubmit = async () => {
-    //ZOD validation
-    //Upload images on Uploadthing
-    //POST on /api/db/addProduct
+    setLoading(true);
+
+    //Data validation
+    if (files.length === 0) {
+      setMsg({ type: "E", message: "Please Upload Image(s)" });
+      return;
+    }
+
+    //Uploadthing
+    const smallFiles = await compressMany(files);
+
+    const verify = new Promise((resolve, reject) => {
+      if (smallFiles.length > 8) reject();
+
+      smallFiles.forEach((i) => {
+        if (i.size >= 2_000_000) {
+          reject("Image size too large. Size Limit: 2MB");
+        }
+      });
+
+      resolve(true);
+    }).catch((e) => {
+      setMsg({ type: "E", message: e.message });
+    });
+
+    const uploadedImgs: UploadFileResponse[] = (await new Promise(
+      async (resolve, reject) => {
+        try {
+          await verify;
+          resolve((await startUpload(smallFiles)) as UploadFileResponse[]);
+        } catch (e) {
+          reject(e);
+        }
+      },
+    ).catch((e) => {
+      setMsg({ type: "E", message: e.message });
+    })) as UploadFileResponse[];
+
+    //POST to Pscale DB
+
+    let imgs = "";
+    uploadedImgs.forEach((i) => {
+      imgs += `${i.key}|`;
+    });
+    imgs = imgs.slice(0, -1);
+
     const res = await fetch("http://localhost:3000/api/db/addProduct", {
       method: "POST",
       mode: "same-origin",
@@ -29,26 +87,34 @@ export default function UpdateProduct() {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ ...formData, imgs }),
     });
-    const temp = await res.json();
-    if (temp.success) {
+
+    const data = await res.json();
+
+    if (data.success) {
       setMsg({
         type: "S",
         message: "Product Added",
       });
+
       setFormData({
         title: "",
-        price: "",
+        price: 0,
         desc: "",
         tag: "",
+        category: "",
         amznlink: "",
-        images: [],
       });
+    } else {
+      setMsg({ type: "E", message: data.message });
     }
+
+    //TODO: Cleanup in case of an error
+    setLoading(false);
   };
 
-  const inputcss = "min-h-[40px] rounded outline-none p-[10px] text-base";
+  const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";
 
   return (
     <div className="w-[600px] lg:w-full p-2">
@@ -77,6 +143,19 @@ export default function UpdateProduct() {
         ></input>
 
         <label>
+          Category:
+          <span className="text-red-500">*</span>
+        </label>
+        <input
+          name="category"
+          value={formData.category}
+          className={inputcss}
+          onChange={(event) => {
+            setFormData({ ...formData, price: parseFloat(event.target.value) });
+          }}
+        ></input>
+
+        <label>
           Description:
           <span className="text-red-500">*</span>
         </label>
@@ -97,8 +176,8 @@ export default function UpdateProduct() {
           name="price"
           value={formData.price}
           className={inputcss}
-          onChange={(prev) => {
-            setFormData({ ...formData, price: prev.target.value });
+          onChange={(event) => {
+            setFormData({ ...formData, price: parseFloat(event.target.value) });
           }}
         ></input>
 
@@ -125,44 +204,24 @@ export default function UpdateProduct() {
           }}
         ></input>
 
-        <label>Images (upto 8):</label>
-        <input
-          type="file"
-          multiple
-          onChange={(e) => {
-            setFormData((data) => {
-              if (e.target.files && e.target.files[0]) {
-                return { ...data, images: [...data.images, e.target.files[0]] };
-              } else {
-                //dont change
-                return data;
-              }
-            });
-          }}
-        ></input>
-        <div className="flex flex-wrap gap-[10px]">
-          {formData.images.map((i) => {
-            console.log(i);
-            return (
-              <Image
-                src={URL.createObjectURL(i)}
-                alt={`${i}`}
-                width={150}
-                height={150}
-                key={i.name}
-              />
-            );
-          })}
-        </div>
+        <label>Image(s):</label>
+        <CustomUploader
+          permittedFileInfo={permittedFileInfo}
+          files={files}
+          setFiles={setFiles}
+        />
 
         <button
           className="cursor-pointer text-[var(--accent-clr2)] max-w-[200px] hover:bg-[var(--accent-clr2)]
-                    hover:text-white p-4 uppercase text-xl font-semibold border-[4px] border-[var(--accent-clr2)]"
+                    hover:text-white p-4 uppercase text-xl font-semibold border-[4px] border-[var(--accent-clr2)]
+                    outline-none"
           type="submit"
+          disabled={loading}
         >
-          Add
+          Update
         </button>
       </form>
+      <div className="w-full h-[50px]">{loading && <Loading />}</div>
     </div>
   );
 }

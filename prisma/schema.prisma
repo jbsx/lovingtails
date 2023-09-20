@@ -13,9 +13,10 @@ generator client {
 
 model Products {
   title    String  @id
+  category String
+  desc     String  @db.LongText
   price    Float
-  desc     String
   tag      String?
-  amznlink String
-  imgs     String
+  amznlink String  @db.TinyText
+  imgs     String  @db.MediumText
 }
