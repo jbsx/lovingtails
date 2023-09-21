@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { ZodError, z } from "zod";
+import { ZodError } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
 
 const prisma = new PrismaClient();
@@ -10,15 +10,9 @@ export async function POST(req: Request, res: Response) {
     const data = dataSchema.parse(await req.json());
 
     const newEntry = await prisma.products.create({
-      //add product
       data: {
-        title: data.title,
-        category: data.category,
-        desc: data.desc,
-        price: data.price,
+        ...data,
         tag: data.tag ? data.tag : null,
-        amznlink: data.amznlink,
-        imgs: data.imgs,
       },
     });
     return NextResponse.json({ success: true, data: newEntry });

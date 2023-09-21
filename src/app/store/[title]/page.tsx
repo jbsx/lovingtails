@@ -1,32 +1,35 @@
 import ImagePreview from "@/app/components/ImagePreview";
-import db from "../../../../tempdb/db.json";
-import fs from "fs";
-import path from "path";
 import { redirect } from "next/navigation";
-import { dbType } from "@/app/utils";
+import { z } from "zod";
+import { dataSchema } from "@/app/utils/zodTypes";
+import amznlogo from "../../../../public/amazon.svg";
 import Image from "next/image";
 
 interface ParamsType {
-  params: { id: string };
+  params: { title: string };
 }
 
-export default function ProductPage({ params }: ParamsType) {
-  const products = db.Products.filter((p) => {
-    return p.name == params.id.split("%20").join(" ");
-  });
-  if (products.length == 0) {
+export default async function ProductPage({ params }: ParamsType) {
+  const title = params.title.replaceAll("%20", " ");
+
+  const res = await (
+    await fetch(`${process.env.URL}/api/db/getProductByTitle`, {
+      method: "POST",
+      body: JSON.stringify({ title }),
+    })
+  ).json();
+
+  if (!res.success) {
     redirect("/404");
   }
-  const p: dbType = products[0];
-  const paths = fs.readdirSync(
-    path.join(process.cwd(), "tempdb", "products", p.name),
-  );
+
+  const p: z.infer<typeof dataSchema> = res.product;
 
   return (
     <div className="mix-blend-darken flex flex-wrap justify-center items-center mt-[2em]">
-      <ImagePreview p={p} paths={paths} />
+      <ImagePreview p={p.imgs} />
       <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
-        <h1 className="text-3xl font-semibold my-[1em]">{p.name}</h1>
+        <h1 className="text-3xl font-semibold my-[1em]">{p.title}</h1>
         {p.tag && (
           <h3 className="text-md w-fit bg-[var(--accent-clr2)] text-white bold p-[0.2em] px-[1em]">
             {p.tag}
@@ -38,14 +41,9 @@ export default function ProductPage({ params }: ParamsType) {
         </h2>
 
         <div>
-          <a target="_blank" href={p.links[0]}>
+          <a target="_blank" href={p.amznlink}>
             <div className="flex items-center justify-center w-fit px-[4em] py-[1em] hover:bg-[#221f1f] text-white border-2 border-black">
-              <Image
-                width={50}
-                height={50}
-                src={require("../../../../public/amazon.svg")}
-                alt="amazon-logo"
-              />
+              <Image width={50} height={50} src={amznlogo} alt="amazon-logo" />
             </div>
           </a>
         </div>

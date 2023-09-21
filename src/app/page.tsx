@@ -1,16 +1,21 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import Testimonial from "./components/Testimonial";
 import Product from "./components/Product";
-import db from "../../tempdb/db.json";
+import { z } from "zod";
+import { dataSchema } from "./utils/zodTypes";
 import cover from "../../public/lovingtailscover.png";
 import bone from "../../public/bone.svg";
 
-export default function Home() {
-  const products = db.Products.filter((p) => {
-    return p.tag !== undefined;
-  });
+export default async function Home() {
+  const res = await (
+    await fetch(`${process.env.URL}/api/db/getProductsRecommended`)
+  ).json();
+
+  if (!res.success) return <div> 500 : Server Error</div>;
+
+  const products = res.products;
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex items-center justify-center my-[10vh] w-full">
@@ -46,8 +51,8 @@ export default function Home() {
           nutrients they need to thrive. Try them today and see the difference!
         </span>
         <div className="flex flex-wrap lg:flex-col w-full justify-center items-center py-[5em] gap-[2px]">
-          {products.map((p) => {
-            return <Product data={p} key={p.name} />;
+          {products.map((p: z.infer<typeof dataSchema>) => {
+            return <Product data={p} key={p.title} />;
           })}
         </div>
         <Link

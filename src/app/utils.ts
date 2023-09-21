@@ -1,13 +1,6 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
-export interface dbType {
-  name: string;
-  price: number;
-  tag?: string;
-  links: Array<string>;
-  desc: string;
-}
-
+//temporary
 export function importimgs(
   dir: string,
   paths: Array<string>,

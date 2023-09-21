@@ -21,7 +21,7 @@ export default function DeleteProduct() {
     //ZOD validation
     //Upload images on Uploadthing
     //POST on /api/db/addProduct
-    const res = await fetch("http://localhost:3000/api/db/addProduct", {
+    const res = await fetch("/api/db/addProduct", {
       method: "POST",
       mode: "same-origin",
       cache: "no-cache",

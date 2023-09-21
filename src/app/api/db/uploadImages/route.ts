@@ -5,18 +5,14 @@ export async function POST(req: Request, res: Response) {
   try {
     const body = await req.formData();
 
-    //validate files
+    //TODO:validate files
 
     let bruh: File[] = [];
     body.forEach(async (i) => {
       bruh = [...bruh, i as File];
     });
 
-    console.log(await utapi.uploadFiles(bruh));
-
-    //upload
-    //const response = await utapi.uploadFiles(body);
-    //console.log(response);
+    await utapi.uploadFiles(bruh);
 
     return NextResponse.json({ success: true });
   } catch (e) {

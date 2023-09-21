@@ -14,10 +14,11 @@ export default function AddProduct() {
     price: 0,
     desc: "",
     tag: "",
+    recommend: false,
     amznlink: "",
   });
 
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<Array<File | string>>([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -29,89 +30,92 @@ export default function AddProduct() {
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
     onUploadError: (e) => {
       setMsg({ type: "E", message: e.message });
+      setLoading(false);
     },
   });
 
   const handleSubmit = async () => {
     setLoading(true);
 
-    //Data validation
-    if (files.length === 0) {
-      setMsg({ type: "E", message: "Please Upload Image(s)" });
-      return;
+    try {
+      //Data validation
+      if (files.length === 0) {
+        throw Error("Please Upload Image(s)");
+      }
+
+      //Uploadthing
+      const smallFiles = await compressMany(files as File[]);
+
+      const verify = new Promise((resolve, reject) => {
+        if (smallFiles.length > 8) reject();
+
+        smallFiles.forEach((i) => {
+          if (i.size > 2_000_000) {
+            reject("Image size too large. Size Limit: 2MB");
+          }
+        });
+
+        resolve(true);
+      });
+
+      const uploadedImgs: UploadFileResponse[] = (await new Promise(
+        async (resolve, reject) => {
+          try {
+            await verify;
+            resolve((await startUpload(smallFiles)) as UploadFileResponse[]);
+          } catch (e) {
+            reject(e);
+          }
+        },
+      )) as UploadFileResponse[];
+
+      //POST to Pscale DB
+
+      let imgs = "";
+      uploadedImgs.forEach((i) => {
+        imgs += `${i.key}|`;
+      });
+      imgs = imgs.slice(0, -1);
+
+      const res = await fetch("/api/db/addProduct", {
+        method: "POST",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ ...formData, imgs }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setMsg({
+          type: "S",
+          message: "Product Added",
+        });
+
+        setFormData({
+          title: "",
+          price: 0,
+          desc: "",
+          tag: "",
+          category: "",
+          recommend: false,
+          amznlink: "",
+        });
+      } else {
+        throw Error(data.message);
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        setMsg({ type: "E", message: e.message });
+      }
+    } finally {
+      setLoading(false);
     }
-
-    //Uploadthing
-    const smallFiles = await compressMany(files);
-
-    const verify = new Promise((resolve, reject) => {
-      if (smallFiles.length > 8) reject();
-
-      smallFiles.forEach((i) => {
-        if (i.size >= 2_000_000) {
-          reject("Image size too large. Size Limit: 2MB");
-        }
-      });
-
-      resolve(true);
-    }).catch((e) => {
-      setMsg({ type: "E", message: e.message });
-    });
-
-    const uploadedImgs: UploadFileResponse[] = (await new Promise(
-      async (resolve, reject) => {
-        try {
-          await verify;
-          resolve((await startUpload(smallFiles)) as UploadFileResponse[]);
-        } catch (e) {
-          reject(e);
-        }
-      },
-    ).catch((e) => {
-      setMsg({ type: "E", message: e.message });
-    })) as UploadFileResponse[];
-
-    //POST to Pscale DB
-
-    let imgs = "";
-    uploadedImgs.forEach((i) => {
-      imgs += `${i.key}|`;
-    });
-    imgs = imgs.slice(0, -1);
-
-    const res = await fetch("http://localhost:3000/api/db/addProduct", {
-      method: "POST",
-      mode: "same-origin",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({ ...formData, imgs }),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      setMsg({
-        type: "S",
-        message: "Product Added",
-      });
-
-      setFormData({
-        title: "",
-        price: 0,
-        desc: "",
-        tag: "",
-        category: "",
-        amznlink: "",
-      });
-    } else {
-      setMsg({ type: "E", message: data.message });
-    }
-
     //TODO: Cleanup in case of an error
-    setLoading(false);
   };
 
   const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";
@@ -121,6 +125,7 @@ export default function AddProduct() {
       <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
         Add Product
       </h1>
+
       {msg && <Msg type={msg.type} message={msg.message} />}
       <form
         className="flex flex-col gap-[10px] text-lg"
@@ -140,7 +145,7 @@ export default function AddProduct() {
           onChange={(prev) => {
             setFormData({ ...formData, title: prev.target.value });
           }}
-        ></input>
+        />
 
         <label>
           Category:
@@ -153,7 +158,7 @@ export default function AddProduct() {
           onChange={(event) => {
             setFormData({ ...formData, category: event.target.value });
           }}
-        ></input>
+        />
 
         <label>
           Description:
@@ -179,7 +184,7 @@ export default function AddProduct() {
           onChange={(event) => {
             setFormData({ ...formData, price: parseFloat(event.target.value) });
           }}
-        ></input>
+        />
 
         <label>Tag:</label>
         <input
@@ -189,7 +194,19 @@ export default function AddProduct() {
           onChange={(prev) => {
             setFormData({ ...formData, tag: prev.target.value });
           }}
-        ></input>
+        />
+
+        <div className="flex items-center h-[50px] gap-[10px]">
+          <label>Recommend Product:</label>
+          <input
+            name="recommend"
+            type="checkbox"
+            value="recommend"
+            onChange={(e) => {
+              setFormData({ ...formData, recommend: e.target.checked });
+            }}
+          />
+        </div>
 
         <label>
           Amazon Link:
@@ -202,9 +219,12 @@ export default function AddProduct() {
           onChange={(prev) => {
             setFormData({ ...formData, amznlink: prev.target.value });
           }}
-        ></input>
+        />
 
-        <label>Image(s):</label>
+        <label>
+          Image(s):
+          <span className="text-red-500">*</span>
+        </label>
         <CustomUploader
           permittedFileInfo={permittedFileInfo}
           files={files}
@@ -218,10 +238,13 @@ export default function AddProduct() {
           type="submit"
           disabled={loading}
         >
-          Add
+          {loading ? (
+            <div className="w-full h-[50px]">{loading && <Loading />}</div>
+          ) : (
+            "Add"
+          )}
         </button>
       </form>
-      <div className="w-full h-[50px]">{loading && <Loading />}</div>
     </div>
   );
 }

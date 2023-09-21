@@ -8,8 +8,8 @@ import ImageReorder from "./ImageReorder";
 
 export function CustomUploader(params: {
   permittedFileInfo: any;
-  files: File[];
-  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  files: Array<File | string>;
+  setFiles: React.Dispatch<React.SetStateAction<Array<File | string>>>;
 }) {
   const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
     params.setFiles((i) => {

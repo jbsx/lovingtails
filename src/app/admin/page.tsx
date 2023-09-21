@@ -4,7 +4,7 @@ import { useState } from "react";
 import UpdateProduct from "../components/UpdateProduct";
 import DeleteProduct from "../components/DeleteProduct";
 
-export default function admin() {
+export default function Admin() {
   const [curr, setCurr] = useState("Add");
 
   return (

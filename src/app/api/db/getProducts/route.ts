@@ -3,9 +3,13 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request, res: Response) {
+export async function POST(req: Request, res: Response) {
+  const body = await req.json();
   try {
-    const products = await prisma.products.findMany();
+    const products = await prisma.products.findMany({
+      skip: body.skip,
+      take: body.take,
+    });
     return NextResponse.json({ success: true, products });
   } catch (error) {
     console.error("Request error", error);

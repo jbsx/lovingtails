@@ -7,5 +7,6 @@ export const dataSchema = z.object({
   price: z.number(),
   tag: z.string().optional(),
   amznlink: z.string().url(),
+  recommend: z.boolean(),
   imgs: z.string(),
 });

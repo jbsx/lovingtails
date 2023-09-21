@@ -26,9 +26,7 @@ export const Cross = (props: any) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={
-        "stroke-[var(--accent-clr2)]" + props.isVisible ? "block" : "hidden"
-      }
+      className={"w-full" + props.isVisible ? "block" : "hidden"}
       onClick={props.onClick}
     >
       <path

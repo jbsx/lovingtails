@@ -1,17 +1,24 @@
 import Product from "../components/Product";
 import db from "../../../tempdb/db.json";
-import { dbType } from "../utils";
+import { z } from "zod";
+import { dataSchema } from "../utils/zodTypes";
 
 export default async function Store() {
-  const res = await fetch("http://localhost:3000/api/db/getProducts");
+  const res = await fetch(`${process.env.URL}/api/db/getProducts`, {
+    method: "POST",
+    body: JSON.stringify({
+      skip: 0,
+      take: 10,
+    }),
+  });
   const data = await res.json();
-  console.log(data.products);
+  console.log(data);
 
   return (
     <div className="flex flex-col justify-center items-center m-5 p-5">
       <div className="container flex flex-wrap justify-center max-w-[2000px] gap-[2px]">
-        {db.Products.map((product: dbType) => {
-          return <Product data={product} key={product.name} />;
+        {data.products.map((product: z.infer<typeof dataSchema>) => {
+          return <Product data={product} key={product.title} />;
         })}
       </div>
     </div>
