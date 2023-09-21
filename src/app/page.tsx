@@ -8,7 +8,9 @@ import cover from "../../public/lovingtailscover.png";
 import bone from "../../public/bone.svg";
 
 export default async function Home() {
-  const res = await (await fetch("/api/db/getProductsRecommended")).json();
+  const res = await (
+    await fetch(process.env.URL + "/api/db/getProductsRecommended")
+  ).json();
 
   if (!res.success) return <div> 500 : Server Error</div>;
 

@@ -13,7 +13,7 @@ export default async function ProductPage({ params }: ParamsType) {
   const title = params.title.replaceAll("%20", " ");
 
   const res = await (
-    await fetch("/api/db/getProductByTitle", {
+    await fetch(process.env.URL + "/api/db/getProductByTitle", {
       method: "POST",
       body: JSON.stringify({ title }),
     })

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { dataSchema } from "../utils/zodTypes";
 
 export default async function Store() {
-  const res = await fetch("/api/db/getProducts", {
+  const res = await fetch(process.env.URL + "/api/db/getProducts", {
     method: "POST",
     body: JSON.stringify({
       skip: 0,

@@ -77,7 +77,7 @@ export default function AddProduct() {
       });
       imgs = imgs.slice(0, -1);
 
-      const res = await fetch("/api/db/addProduct", {
+      const res = await fetch(process.env.URL + "/api/db/addProduct", {
         method: "POST",
         mode: "same-origin",
         cache: "no-cache",

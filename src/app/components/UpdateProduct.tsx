@@ -87,7 +87,7 @@ export default function UpdateProduct() {
       //imgs = imgs.slice(0, -1);
 
       //const data = await (
-      //  await fetch("/api/db/addProduct", {
+      //  await fetch(process.env.URL + "/api/db/addProduct", {
       //    method: "POST",
       //    mode: "same-origin",
       //    cache: "no-cache",
@@ -156,7 +156,7 @@ export default function UpdateProduct() {
           onClick={async () => {
             try {
               const res = await (
-                await fetch(`/api/db/getProductByTitle`, {
+                await fetch(process.env.URL + `/api/db/getProductByTitle`, {
                   method: "POST",
                   body: JSON.stringify({
                     title: loadTitle,
