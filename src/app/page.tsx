@@ -8,13 +8,19 @@ import cover from "../../public/lovingtailscover.png";
 import bone from "../../public/bone.svg";
 
 export default async function Home() {
-  const res = await (
-    await fetch(process.env.URL + "/api/db/getProductsRecommended")
-  ).json();
+  const getRecommendedProducts = async () => {
+    const res = await fetch(process.env.URL + "/api/db/getProductsRecommended");
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success) return data.products;
+    } else {
+      return [];
+    }
+  };
 
-  if (!res.success) return <div> 500 : Server Error</div>;
-
-  const products = res.products;
+  const products = (await getRecommendedProducts()) as Array<
+    z.infer<typeof dataSchema>
+  >;
 
   return (
     <div className="flex flex-col items-center justify-center">
