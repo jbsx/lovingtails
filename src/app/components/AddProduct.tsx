@@ -197,7 +197,7 @@ export default function AddProduct() {
         />
 
         <div className="flex items-center h-[50px] gap-[10px]">
-          <label>Recommend Product:</label>
+          <label>Feature Product:</label>
           <input
             name="recommend"
             type="checkbox"
