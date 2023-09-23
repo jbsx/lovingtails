@@ -16,9 +16,8 @@ export default async function Store() {
     if (res.ok) {
       const data = await res.json();
       if (data.success) return data.products;
-    } else {
-      return [];
     }
+    return [];
   };
 
   const products = (await getProducts()) as Array<z.infer<typeof dataSchema>>;
