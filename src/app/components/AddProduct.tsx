@@ -14,7 +14,7 @@ export default function AddProduct() {
     price: 0,
     desc: "",
     tag: "",
-    recommend: false,
+    feature: false,
     amznlink: "",
   });
 
@@ -36,6 +36,7 @@ export default function AddProduct() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setMsg(null);
 
     try {
       //Data validation
@@ -102,9 +103,11 @@ export default function AddProduct() {
           desc: "",
           tag: "",
           category: "",
-          recommend: false,
+          feature: false,
           amznlink: "",
         });
+
+        setFiles([]);
       } else {
         throw Error(data.message);
       }
@@ -199,11 +202,11 @@ export default function AddProduct() {
         <div className="flex items-center h-[50px] gap-[10px]">
           <label>Feature Product:</label>
           <input
-            name="recommend"
+            name="feature"
             type="checkbox"
-            value="recommend"
+            value="feature"
             onChange={(e) => {
-              setFormData({ ...formData, recommend: e.target.checked });
+              setFormData({ ...formData, feature: e.target.checked });
             }}
           />
         </div>

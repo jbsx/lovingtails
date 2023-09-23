@@ -12,6 +12,7 @@ export default async function Store() {
         take: 10,
       }),
     });
+    //TODO: Pagination
     if (res.ok) {
       const data = await res.json();
       if (data.success) return data.products;

@@ -14,7 +14,7 @@ export default function UpdateProduct() {
     price: 0,
     desc: "",
     tag: "",
-    recommend: false,
+    feature: false,
     amznlink: "",
   });
 
@@ -110,7 +110,7 @@ export default function UpdateProduct() {
           desc: "",
           price: 0,
           tag: "",
-          recommend: false,
+          feature: false,
           amznlink: "",
         });
       } else {
@@ -261,11 +261,11 @@ export default function UpdateProduct() {
         <div className="flex items-center h-[50px] gap-[10px]">
           <label>Feature Product: </label>
           <input
-            name="recommend"
+            name="feature"
             type="checkbox"
-            value="recommend"
+            value="feature"
             onChange={(e) => {
-              setFormData({ ...formData, recommend: e.target.checked });
+              setFormData({ ...formData, feature: e.target.checked });
             }}
           />
         </div>

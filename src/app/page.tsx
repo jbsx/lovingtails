@@ -9,10 +9,9 @@ import bone from "../../public/bone.svg";
 
 export default async function Home() {
   const getRecommendedProducts = async () => {
-    const res = await fetch(
-      process.env.URL + "/api/db/getProductsRecommended",
-      { cache: "no-store" },
-    );
+    const res = await fetch(process.env.URL + "/api/db/getProductsFeatured", {
+      cache: "no-store",
+    });
     if (res.ok) {
       const data = await res.json();
       if (data.success) return data.products;
@@ -72,22 +71,30 @@ export default async function Home() {
         </Link>
       </div>
 
-      <div className="w-full my-[15vh] flex justify-center items-center p-5">
-        <img
-          src={bone.src}
-          alt="bone"
-          className="rotate-[150deg] w-[300px] lg:hidden p-[1em]"
-        />
-        <p
-          className="w-[800px] md:w-fit text-3xl leading-loose border-l-4 border-[var(--accent-clr2)] p-[1em] 
+      <div className="flex flex-col items-center w-full my-[15vh] p-5">
+        <div className="flex justify-center items-center">
+          <img
+            src={bone.src}
+            alt="bone"
+            className="rotate-[150deg] w-[300px] lg:hidden p-[1em]"
+          />
+          <p
+            className="w-[800px] md:w-fit text-3xl leading-loose border-l-4 border-[var(--accent-clr2)] p-[1em] 
                     lg:border-none lg:text-2xl lg:text-center"
+          >
+            Our supplements are made with only the highest quality ingredients
+            and are formulated to meet the unique nutritional needs of pets.
+            From our Salmon Oil that supports healthy skin and coat to our Joint
+            & Hip Syrup that promotes mobility and flexibility, our products are
+            designed to help your pet feel their best.
+          </p>
+        </div>
+        <Link
+          href={"/supplements"}
+          className="bg-[var(--accent-clr2)] px-[2em] py-[1em] hover:bg-[var(--accent-clr1)] text-white w-fit font-semibold active:drop-shadow-md"
         >
-          Our supplements are made with only the highest quality ingredients and
-          are formulated to meet the unique nutritional needs of pets. From our
-          Salmon Oil that supports healthy skin and coat to our Joint & Hip
-          Syrup that promotes mobility and flexibility, our products are
-          designed to help your pet feel their best.
-        </p>
+          Supplements
+        </Link>
       </div>
 
       <div className="flex flex-col items-center p-[3em] my-[5em] w-full">

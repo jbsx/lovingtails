@@ -12,12 +12,12 @@ generator client {
 }
 
 model Products {
-  title     String  @id
-  category  String
-  desc      String  @db.LongText
-  price     Float
-  tag       String?
-  amznlink  String  @db.TinyText
-  recommend Boolean
-  imgs      String  @db.MediumText
+  title    String  @id
+  category String
+  desc     String  @db.LongText
+  price    Float
+  tag      String?
+  amznlink String  @db.TinyText
+  feature  Boolean
+  imgs     String  @db.MediumText
 }

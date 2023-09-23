@@ -36,6 +36,13 @@ export default function Navbar() {
         </Link>
         <Link
           className="p-3 m-2 w-[100] group transition-all"
+          href={"/supplements"}
+        >
+          Supplements
+          <span className="block max-w-0 group-hover:max-w-full duration-300 h-0.5 bg-[var(--accent-clr1)]"></span>
+        </Link>
+        <Link
+          className="p-3 m-2 w-[100] group transition-all"
           href={"/contacts"}
         >
           Contacts

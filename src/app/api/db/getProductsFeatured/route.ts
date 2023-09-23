@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const res = await prisma.products.findMany({
       where: {
-        recommend: true,
+        feature: true,
       },
     });
     return NextResponse.json({ success: true, products: res });
