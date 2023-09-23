@@ -37,6 +37,7 @@ export default async function Supplements() {
                 className={`flex gap-[20px] py-[3em] ${
                   idx % 2 === 1 ? "flex-row-reverse" : ""
                 } md:flex-col`}
+                key={idx}
               >
                 <div className="flex flex-col gap-[10px] text-center">
                   <h1 className="text-xl text-[var(--accent-clr1)] font-semibold">
