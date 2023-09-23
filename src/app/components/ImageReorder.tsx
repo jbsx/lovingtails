@@ -50,9 +50,13 @@ export default function ImageReorder(params: {
               className="absolute right-[-3px] top-[-3px] flex justify-center items-center rounded-full bg-white
                          w-[20px] h-[20px] text-sm font-medium border-2 border-[var(--accent-clr2)]
                          hidden group-hover:block cursor-pointer"
-              onClick={() => {
-                let temp = [...params.files];
-                //TODO: remove img from list
+              onClick={async () => {
+                if (typeof i === "string") {
+                  //TODO: delete image from UploadThing
+                }
+                params.setFiles((prev: Array<File | string>) => {
+                  return prev.splice(0, idx);
+                });
               }}
             >
               ✕

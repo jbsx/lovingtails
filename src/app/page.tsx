@@ -9,7 +9,10 @@ import bone from "../../public/bone.svg";
 
 export default async function Home() {
   const getRecommendedProducts = async () => {
-    const res = await fetch(process.env.URL + "/api/db/getProductsRecommended");
+    const res = await fetch(
+      process.env.URL + "/api/db/getProductsRecommended",
+      { cache: "no-store" },
+    );
     if (res.ok) {
       const data = await res.json();
       if (data.success) return data.products;

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Msg from "./Msg";
 import { CustomUploader } from "./CustomUploader";
 import { useUploadThing } from "../utils/uploadthing";
@@ -19,6 +19,8 @@ export default function UpdateProduct() {
   });
 
   const [loadTitle, setLoadTitle] = useState("");
+
+  const ogTitle = useRef("");
 
   const [files, setFiles] = useState<Array<File | string>>([]);
 
@@ -76,47 +78,44 @@ export default function UpdateProduct() {
       });
       setFiles(temp);
 
-      console.log(files);
-
       //POST to Pscale DB
 
-      //let imgs = "";
-      //uploadedImgs.forEach((i) => {
-      //  imgs += `${i.key}|`;
-      //});
-      //imgs = imgs.slice(0, -1);
+      let imgs = temp.reduce((acc, curr) => {
+        return (acc as string) + "|" + curr;
+      });
+      console.log(imgs);
 
-      //const data = await (
-      //  await fetch(process.env.URL + "/api/db/addProduct", {
-      //    method: "POST",
-      //    mode: "same-origin",
-      //    cache: "no-cache",
-      //    credentials: "same-origin",
-      //    headers: {
-      //      "Content-type": "application/json",
-      //    },
-      //    body: JSON.stringify({ ...formData, imgs }),
-      //  })
-      //).json();
+      const data = await (
+        await fetch(process.env.URL + "/api/db/updateProduct", {
+          method: "POST",
+          mode: "same-origin",
+          cache: "no-cache",
+          credentials: "same-origin",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ ...formData, imgs, ogTitle: ogTitle.current }),
+        })
+      ).json();
 
-      //if (data.success) {
-      //  setMsg({
-      //    type: "S",
-      //    message: "Product Added",
-      //  });
+      if (data.success) {
+        setMsg({
+          type: "S",
+          message: "Product Updated",
+        });
 
-      //  setFormData({
-      //    title: "",
-      //    category: "",
-      //    desc: "",
-      //    price: 0,
-      //    tag: "",
-      //    recommend: false,
-      //    amznlink: "",
-      //  });
-      //} else {
-      //  setMsg({ type: "E", message: data.message });
-      //}
+        setFormData({
+          title: "",
+          category: "",
+          desc: "",
+          price: 0,
+          tag: "",
+          recommend: false,
+          amznlink: "",
+        });
+      } else {
+        setMsg({ type: "E", message: data.message });
+      }
     } catch (e) {
       if (e instanceof Error) {
         setMsg({ type: "E", message: e.message });
@@ -171,6 +170,7 @@ export default function UpdateProduct() {
 
               setFormData({ ...res.product });
               setFiles(res.product.imgs.split("|"));
+              ogTitle.current = loadTitle;
             } catch (e) {
               if (e instanceof Error) {
                 setMsg({ type: "E", message: e.message });
@@ -204,7 +204,6 @@ export default function UpdateProduct() {
           name="title"
           value={formData.title}
           className={inputcss}
-          disabled
           onChange={(prev) => {
             setFormData({ ...formData, title: prev.target.value });
           }}

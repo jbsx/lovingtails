@@ -6,6 +6,7 @@ export default async function Store() {
   const getProducts = async () => {
     const res = await fetch(process.env.URL + "/api/db/getProducts", {
       method: "POST",
+      cache: "no-store",
       body: JSON.stringify({
         skip: 0,
         take: 10,
