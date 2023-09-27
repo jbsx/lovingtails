@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { dataSchema } from "../utils/zodTypes";
 import Product from "../components/Product";
+import Markdown from "../components/markdown";
 
 export default async function Supplements() {
   const getProducts = async () => {
@@ -26,15 +27,15 @@ export default async function Supplements() {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="flex flex-col items-center max-w-[1400px]">
-        <h1 className="text-3xl text-[var(--accent-clr2)] font-semibold p-[1em]">
+      <div className="flex flex-col items-center max-w-[1250px]">
+        <h1 className="text-4xl text-[var(--accent-clr2)] font-semibold py-[1em] text-left w-full uppercase">
           Supplements
         </h1>
-        <div className="">
+        <div>
           {supplements.map((i, idx) => {
             return (
               <div
-                className={`flex gap-[20px] py-[3em] ${
+                className={`flex gap-[50px] py-[4em] ${
                   idx % 2 === 1 ? "flex-row-reverse" : ""
                 } md:flex-col`}
                 key={idx}
@@ -45,7 +46,7 @@ export default async function Supplements() {
                   </h1>
                   <Product data={i} key={i.title} />
                 </div>
-                <div className="whitespace-pre-wrap text-lg">{i.desc}</div>
+                <Markdown data={i.desc}></Markdown>
               </div>
             );
           })}

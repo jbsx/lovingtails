@@ -225,6 +225,13 @@ export default function UpdateProduct() {
         <label>
           Description:
           <span className="text-red-500">*</span>
+          <a
+            className="text-blue-400 font-semibold"
+            target="_blank"
+            href="https://www.markdownguide.org/basic-syntax/"
+          >
+            ⓘ
+          </a>
         </label>
         <textarea
           name="desc"
