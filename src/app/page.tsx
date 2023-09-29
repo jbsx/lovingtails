@@ -6,6 +6,7 @@ import { z } from "zod";
 import { dataSchema } from "./utils/zodTypes";
 import cover from "../../public/lovingtailscover.png";
 import bone from "../../public/bone.svg";
+import { MdPets } from "react-icons/md";
 
 export default async function Home() {
   const getRecommendedProducts = async () => {
@@ -44,8 +45,9 @@ export default async function Home() {
       </div>
 
       <div className="my-[15vh] text-xl text-justify bg-[var(--accent-clr2)] max-w-[1200px] relative py-[2em] z-[2] text-white font-medium">
-        <div className="text-2xl leading-loose p-[2em] text-center sm:p-[0.5em] sm:text-xl">
+        <div className="flex flex-col items-center text-2xl leading-loose p-[2em] text-center sm:p-[0.5em] sm:text-xl">
           <div className="absolute top-0 left-0 w-full h-full bg-[url(../../public/bowl_white.png)] bg-origin-content bg-[length:60px_40px] z-[-1] opacity-[10%]"></div>
+          <MdPets className="w-[50px] h-[50px]" />
           At LovingTails, we believe that good health is the foundation of
           happiness and longevity for pets. That&apos;s why we&apos;ve developed
           a line of premium supplements that are designed to provide your pet

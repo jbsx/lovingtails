@@ -28,7 +28,7 @@ export default async function Supplements() {
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col items-center max-w-[1250px]">
-        <h1 className="text-4xl text-[var(--accent-clr2)] font-semibold py-[1em] text-left w-full uppercase">
+        <h1 className="text-4xl text-[var(--accent-clr2)] font-semibold p-[0.5em] pt-[3em] text-left w-full uppercase">
           Supplements
         </h1>
         <div>
@@ -46,7 +46,9 @@ export default async function Supplements() {
                   </h1>
                   <Product data={i} key={i.title} />
                 </div>
-                <Markdown data={i.desc}></Markdown>
+                <div className="md:p-4">
+                  <Markdown data={i.desc}></Markdown>
+                </div>
               </div>
             );
           })}
