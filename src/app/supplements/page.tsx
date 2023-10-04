@@ -5,16 +5,7 @@ import Markdown from "../components/Markdown";
 
 export default async function Supplements() {
   const getProducts = async () => {
-    const res = await fetch(`${process.env.URL}/api/db/getCustomProducts`, {
-      method: "POST",
-      cache: "no-store",
-      body: JSON.stringify({
-        where: {
-          category: "Supplements",
-        },
-      }),
-    });
-
+    const res = await fetch(`${process.env.URL}/api/db/getSupplements`);
     if (res.ok) {
       const data = await res.json();
       if (data.success) return data.products;

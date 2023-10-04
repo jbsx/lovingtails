@@ -3,11 +3,12 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
-  const body = await req.json();
+export async function GET() {
   try {
     const products = await prisma.products.findMany({
-      ...body,
+      where: {
+        category: "Supplements",
+      },
     });
     return NextResponse.json({ success: true, products });
   } catch (error) {
