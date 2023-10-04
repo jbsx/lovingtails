@@ -97,17 +97,17 @@ export default function AddProduct() {
           message: "Product Added",
         });
 
-        setFormData({
-          title: "",
-          price: 0,
-          desc: "",
-          tag: "",
-          category: "",
-          feature: false,
-          amznlink: "",
-        });
+        //setFormData({
+        //  title: "",
+        //  price: 0,
+        //  desc: "",
+        //  tag: "",
+        //  category: "",
+        //  feature: false,
+        //  amznlink: "",
+        //});
 
-        setFiles([]);
+        //setFiles([]);
       } else {
         throw Error(data.message);
       }

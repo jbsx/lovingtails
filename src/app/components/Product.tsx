@@ -22,7 +22,7 @@ export default function Product({ data }: props) {
           height={300}
           src={`http://utfs.io/f/${imgs[0]}`}
           alt={data.title}
-          className="overflow-hidden mix-blend-darken max-h-[300px]"
+          className="overflow-hidden mix-blend-multiply max-h-[300px]"
         />
 
         <div className="group-hover:translate-y-[-20px] transition-all w-full">

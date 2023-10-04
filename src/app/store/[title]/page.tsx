@@ -27,7 +27,7 @@ export default async function ProductPage({ params }: ParamsType) {
   const p: z.infer<typeof dataSchema> = res.product;
 
   return (
-    <div className="mix-blend-darken flex flex-wrap justify-center mt-[2em]">
+    <div className="mix-blend-multiply flex flex-wrap justify-center mt-[2em]">
       <ImagePreview p={p.imgs} />
       <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
         <h1 className="text-3xl font-semibold py-[0.5em]">{p.title}</h1>

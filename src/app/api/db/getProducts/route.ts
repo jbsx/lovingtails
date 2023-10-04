@@ -6,11 +6,15 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   const body = await req.json();
   try {
-    const products = await prisma.products.findMany({
-      skip: body.skip,
-      take: body.take,
-    });
-    return NextResponse.json({ success: true, products });
+    const [products, count] = await prisma.$transaction([
+      prisma.products.findMany({
+        skip: body.skip,
+        take: body.take,
+      }),
+      prisma.products.count(),
+    ]);
+
+    return NextResponse.json({ success: true, products, count });
   } catch (error) {
     console.error("Request error", error);
   }
