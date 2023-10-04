@@ -9,6 +9,8 @@ export async function POST(req: Request) {
   try {
     const data = await req.json();
 
+    //TODO: delete the deleted images from UploadThing
+
     const newEntry = await prisma.products.update({
       where: {
         title: data.ogTitle,

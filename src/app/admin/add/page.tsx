@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import Msg from "./Msg";
-import { CustomUploader } from "./CustomUploader";
-import { useUploadThing } from "../utils/uploadthing";
-import { compressMany } from "../utils/imgProcessing";
-import Loading from "./Loading";
+import Msg from "../../components/Msg";
+import { CustomUploader } from "../../components/CustomUploader";
+import { useUploadThing } from "../../utils/uploadthing";
+import { compressMany } from "../../utils/imgProcessing";
+import Loading from "../../components/Loading";
 import { UploadFileResponse } from "uploadthing/client";
 
 export default function AddProduct() {
@@ -124,14 +124,14 @@ export default function AddProduct() {
   const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";
 
   return (
-    <div className="w-[600px] lg:w-full p-2">
-      <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
+    <div className="flex flex-col m-auto items-center w-[600px] lg:w-full p-2">
+      <h1 className="text-3xl font-semibold text-[var(--accent-clr2)] w-full">
         Add Product
       </h1>
 
       {msg && <Msg type={msg.type} message={msg.message} />}
       <form
-        className="flex flex-col gap-[10px] text-lg"
+        className="flex flex-col w-full gap-[10px] text-lg"
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();

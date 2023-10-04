@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { dataSchema } from "../utils/zodTypes";
 import Product from "../components/Product";
-import Markdown from "../components/markdown";
+import Markdown from "../components/Markdown";
 
 export default async function Supplements() {
   const getProducts = async () => {
@@ -14,7 +14,6 @@ export default async function Supplements() {
         },
       }),
     });
-    //TODO: pagination
 
     if (res.ok) {
       const data = await res.json();

@@ -1,5 +1,5 @@
 import ImagePreview from "@/app/components/ImagePreview";
-import Markdown from "@/app/components/markdown";
+import Markdown from "@/app/components/Markdown";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
