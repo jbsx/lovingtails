@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 export async function GET() {
   try {
     const res = await prisma.products.findMany({
-      where: {
-        feature: true,
+      orderBy: {
+        priority: "desc",
       },
     });
     return NextResponse.json({ success: true, products: res });

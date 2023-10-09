@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   const body = await req.json();
   try {
     const [products, count] = await prisma.$transaction([

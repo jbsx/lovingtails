@@ -1,30 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import Testimonial from "./components/Testimonial";
-import Product from "./components/Product";
-import { z } from "zod";
-import { dataSchema } from "./utils/zodTypes";
+import Featured from "./components/Featured";
 import cover from "../../public/lovingtailscover.png";
 import bone from "../../public/bone.svg";
 import { MdPets } from "react-icons/md";
 
 export default async function Home() {
-  const getRecommendedProducts = async () => {
-    const res = await fetch(process.env.URL + "/api/db/getProductsFeatured", {
-      cache: "no-store",
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.success) return data.products;
-    } else {
-      return [];
-    }
-  };
-
-  const products = (await getRecommendedProducts()) as Array<
-    z.infer<typeof dataSchema>
-  >;
-
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex items-center justify-center my-[10vh] w-full">
@@ -60,11 +42,7 @@ export default async function Home() {
           Our premium supplements are formulated to provide your pet with the
           nutrients they need to thrive. Try them today and see the difference!
         </span>
-        <div className="flex flex-wrap lg:flex-col w-full justify-center items-center py-[5em] gap-[2px]">
-          {products.map((p: z.infer<typeof dataSchema>) => {
-            return <Product data={p} key={p.title} />;
-          })}
-        </div>
+
         <Link
           href={"/store"}
           className="bg-[var(--accent-clr2)] px-[2em] py-[1em] hover:bg-[var(--accent-clr1)] text-white w-fit font-semibold active:drop-shadow-md"
@@ -75,7 +53,7 @@ export default async function Home() {
 
       <div className="flex flex-col items-center w-full my-[15vh] p-5">
         <div className="flex justify-center items-center">
-          <img
+          <Image
             src={bone.src}
             alt="bone"
             className="rotate-[150deg] w-[300px] lg:hidden p-[1em]"
