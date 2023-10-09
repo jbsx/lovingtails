@@ -18,6 +18,7 @@ model Products {
   price    Float
   tag      String?
   amznlink String  @db.TinyText
+  priority Int
   feature  Boolean
   imgs     String  @db.MediumText
 }

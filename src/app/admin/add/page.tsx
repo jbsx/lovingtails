@@ -14,6 +14,7 @@ export default function AddProduct() {
     price: 0,
     desc: "",
     tag: "",
+    priority: 0,
     feature: false,
     amznlink: "",
   });
@@ -103,6 +104,7 @@ export default function AddProduct() {
           desc: "",
           tag: "",
           category: "",
+          priority: 0,
           feature: false,
           amznlink: "",
         });
@@ -163,21 +165,29 @@ export default function AddProduct() {
           }}
         />
 
-        <label>
+        <label className="flex gap-[5px]">
           Description:
           <span className="text-red-500">*</span>
-          <a
-            className="text-blue-400 font-semibold"
-            target="_blank"
-            href="https://www.markdownguide.org/basic-syntax/"
-          >
-            ⓘ
-          </a>
+          <div className="relative flex group">
+            <span className="text-blue-400 font-semibold">ⓘ</span>
+            <div className="absolute hidden group-hover:block bg-[var(--background-hex)] w-[300px] border-2 p-4 whitespace-pre-wrap">
+              {
+                "This text will be treated as Markup. Markup can be used to format text into html."
+              }
+              <a
+                className="text-blue-400 font-semibold"
+                target="_blank"
+                href="https://www.markdownguide.org/basic-syntax/"
+              >
+                Click here for Markup syntax.
+              </a>
+            </div>
+          </div>
         </label>
         <textarea
           name="desc"
           value={formData.desc}
-          className={inputcss}
+          className={"h-[300px] mb-2 rounded outline-none p-[10px] text-base"}
           onChange={(prev) => {
             setFormData({ ...formData, desc: prev.target.value });
           }}
@@ -203,6 +213,26 @@ export default function AddProduct() {
           className={inputcss}
           onChange={(prev) => {
             setFormData({ ...formData, tag: prev.target.value });
+          }}
+        />
+
+        <label className="flex gap-[5px]">
+          Priority:
+          <div className="relative flex group">
+            <span className="text-blue-400 font-semibold">ⓘ</span>
+            <div className="absolute hidden group-hover:block bg-[var(--background-hex)] w-[300px] border-2 p-4 whitespace-pre-wrap">
+              {
+                "Product with higher priority is shown first.\nRange: 0-100.\nDefault value is 0."
+              }
+            </div>
+          </div>
+        </label>
+        <input
+          name="priority"
+          value={formData.priority}
+          className={inputcss}
+          onChange={(prev) => {
+            setFormData({ ...formData, priority: parseInt(prev.target.value) });
           }}
         />
 

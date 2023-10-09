@@ -10,6 +10,9 @@ export async function POST(req: Request) {
       prisma.products.findMany({
         skip: body.skip,
         take: body.take,
+        orderBy: {
+          priority: "desc",
+        },
       }),
       prisma.products.count(),
     ]);

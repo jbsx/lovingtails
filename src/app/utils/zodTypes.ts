@@ -7,6 +7,7 @@ export const dataSchema = z.object({
   price: z.number(),
   tag: z.string().optional(),
   amznlink: z.string().url(),
+  priority: z.number().gte(0).lte(100),
   feature: z.boolean(),
   imgs: z.string(),
 });

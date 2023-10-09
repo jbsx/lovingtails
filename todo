@@ -1,4 +1,7 @@
-sorting products in the store page
-product priority
-look into performance improvements
-
+[ ] storing and filter products in the store page
+[X] product priority
+[ ] delete from uploadthing on product update and delete
+[ ] look into performance improvements
+[ ] preview markup whilst typing
+[ ] mass upload to db and uploadthing
+[ ] loading pulse state page
