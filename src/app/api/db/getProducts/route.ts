@@ -8,8 +8,8 @@ export async function POST(req: Request) {
   try {
     const [products, count] = await prisma.$transaction([
       prisma.products.findMany({
-        skip: body.skip,
-        take: body.take,
+        skip: body.skip ?? 0,
+        take: body.take ?? 20,
         orderBy: {
           priority: "desc",
         },

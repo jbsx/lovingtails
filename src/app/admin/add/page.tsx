@@ -15,7 +15,6 @@ export default function AddProduct() {
     desc: "",
     tag: "",
     priority: 0,
-    feature: false,
     amznlink: "",
   });
 
@@ -105,7 +104,6 @@ export default function AddProduct() {
           tag: "",
           category: "",
           priority: 0,
-          feature: false,
           amznlink: "",
         });
 
@@ -235,18 +233,6 @@ export default function AddProduct() {
             setFormData({ ...formData, priority: parseInt(prev.target.value) });
           }}
         />
-
-        <div className="flex items-center h-[50px] gap-[10px]">
-          <label>Feature Product:</label>
-          <input
-            name="feature"
-            type="checkbox"
-            value="feature"
-            onChange={(e) => {
-              setFormData({ ...formData, feature: e.target.checked });
-            }}
-          />
-        </div>
 
         <label>
           Amazon Link:

@@ -15,7 +15,6 @@ export default function UpdateProduct() {
     desc: "",
     tag: "",
     priority: 0,
-    feature: false,
     amznlink: "",
   });
 
@@ -112,7 +111,6 @@ export default function UpdateProduct() {
           price: 0,
           tag: "",
           priority: 0,
-          feature: false,
           amznlink: "",
         });
       } else {
@@ -303,18 +301,6 @@ export default function UpdateProduct() {
               });
             }}
           />
-
-          <div className="flex items-center h-[50px] gap-[10px]">
-            <label>Feature Product: </label>
-            <input
-              name="feature"
-              type="checkbox"
-              value="feature"
-              onChange={(e) => {
-                setFormData({ ...formData, feature: e.target.checked });
-              }}
-            />
-          </div>
 
           <label>
             Amazon Link:

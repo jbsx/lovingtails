@@ -36,7 +36,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="w-full flex flex-col justify-center items-center py-[12em] text-[var(--accent-clr2)]">
+      <div className="w-full flex flex-col justify-center items-center py-[12em] text-[var(--accent-clr2)] gap-[20px]">
         <span className="text-3xl font-medium max-w-[1200px] text-center">
           Our premium supplements are formulated to provide your pet with the
           nutrients they need to thrive. Try them today and see the difference!

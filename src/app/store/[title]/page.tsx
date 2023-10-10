@@ -5,6 +5,27 @@ import { z } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
 import amznlogo from "../../../../public/amazon.svg";
 import Image from "next/image";
+import { PrismaClient } from "@prisma/client";
+
+//Server site generation
+export async function generateStaticParams() {
+  const prisma = new PrismaClient();
+  const res = await prisma.products.findMany({
+    skip: 0,
+    take: 50,
+    orderBy: {
+      priority: "desc",
+    },
+  });
+
+  console.log(res);
+
+  return res.map((i: any) => {
+    ({
+      title: i.title.replaceAll(" ", "%20"),
+    });
+  });
+}
 
 interface ParamsType {
   params: { title: string };
