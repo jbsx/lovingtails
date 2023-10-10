@@ -3,9 +3,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function POST() {
   try {
     const res = await prisma.products.findMany({
+      where: {
+        feature: true,
+      },
       orderBy: {
         priority: "desc",
       },

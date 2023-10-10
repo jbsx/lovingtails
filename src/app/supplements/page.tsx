@@ -15,9 +15,9 @@ export default async function Supplements() {
     });
     if (res.ok) {
       const data = await res.json();
-      if (data.success) return data.products as z.infer<typeof dataSchema>[];
+      if (data.success) return data.products;
     }
-    return [] as z.infer<typeof dataSchema>[];
+    return [];
   };
 
   const supplements = await getProducts();

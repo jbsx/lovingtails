@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import Testimonial from "./components/Testimonial";
-import Featured from "./components/Featured";
 import cover from "../../public/lovingtailscover.png";
 import bone from "../../public/bone.svg";
 import { MdPets } from "react-icons/md";
@@ -53,7 +52,7 @@ export default async function Home() {
 
       <div className="flex flex-col items-center w-full my-[15vh] p-5">
         <div className="flex justify-center items-center">
-          <Image
+          <img
             src={bone.src}
             alt="bone"
             className="rotate-[150deg] w-[300px] lg:hidden p-[1em]"
