@@ -18,11 +18,13 @@ export default async function Store({
   const getData = async () => {
     const res = await fetch(process.env.URL + "/api/db/getProducts", {
       method: "POST",
-      cache: "no-store",
       body: JSON.stringify({
         skip: start,
         take: per_page,
       }),
+      next: {
+        revalidate: 1440, // 60M * 24H - everyday - value in minutes
+      },
     });
 
     if (res.ok) {

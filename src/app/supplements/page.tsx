@@ -9,9 +9,7 @@ export default async function Supplements() {
   const getProducts = async (): Promise<z.infer<typeof dataSchema>[]> => {
     const res = await fetch(process.env.URL + "/api/db/getSupplements", {
       method: "POST",
-      mode: "same-origin",
       cache: "no-store",
-      credentials: "same-origin",
     });
     if (res.ok) {
       const data = await res.json();
