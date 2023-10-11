@@ -6,6 +6,7 @@ import { useUploadThing } from "../../utils/uploadthing";
 import { compressMany } from "../../utils/imgProcessing";
 import Loading from "../../components/Loading";
 import { UploadFileResponse } from "uploadthing/client";
+import AdminDashboard from "@/app/components/AdminDashboard";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -125,6 +126,8 @@ export default function AddProduct() {
 
   return (
     <div className="flex flex-col m-auto items-center w-[600px] lg:w-full p-2">
+      <AdminDashboard />
+
       <h1 className="text-3xl font-semibold text-[var(--accent-clr2)] w-full">
         Add Product
       </h1>

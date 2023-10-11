@@ -7,15 +7,15 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request, res: Response) {
   try {
-    const data = dataSchema.parse(await req.json());
+    const reqBody = dataSchema.parse(await req.json());
 
-    const newEntry = await prisma.products.create({
+    const data = await prisma.products.create({
       data: {
-        ...data,
-        tag: data.tag ? data.tag : null,
+        ...reqBody,
+        tag: reqBody.tag ? reqBody.tag : null,
       },
     });
-    return NextResponse.json({ success: true, data: newEntry });
+    return NextResponse.json({ success: true, data });
   } catch (error) {
     console.error("Request error", error);
     if (error instanceof ZodError) {

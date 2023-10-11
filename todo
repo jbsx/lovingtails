@@ -5,3 +5,5 @@
 [ ] preview markup whilst typing
 [ ] mass upload to db and uploadthing
 [ ] loading pulse state page
+[ ] authenticate session on page reload (in case the role has been revoked)
+[ ] make communication with the backend seem smooth

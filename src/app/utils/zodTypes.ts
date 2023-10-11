@@ -8,6 +8,9 @@ export const dataSchema = z.object({
   tag: z.string().optional(),
   amznlink: z.string().url(),
   priority: z.number().gte(0).lte(100),
-  feature: z.boolean(),
   imgs: z.string(),
+});
+
+export const adminsSchema = z.object({
+  email: z.string().email(),
 });

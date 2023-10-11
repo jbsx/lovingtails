@@ -19,6 +19,9 @@ model Products {
   tag      String?
   amznlink String  @db.TinyText
   priority Int
-  feature  Boolean
   imgs     String  @db.MediumText
+}
+
+model Admins {
+  email String @id
 }
