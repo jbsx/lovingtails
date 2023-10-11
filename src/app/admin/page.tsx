@@ -1,6 +1,6 @@
 export default function Admin() {
   return (
-    <div className="flex flex-wrap justify-center my-5 gap-[40px]">
+    <div className="flex flex-col items-center my-5 gap-[40px]">
       <div className="flex flex-col items-center border-2 border-[var(--accent-clr2)]">
         <h2 className="text-xl uppercase">Products</h2>
         <div className="flex flex-wrap justify-center p-3 gap-[10px]">
