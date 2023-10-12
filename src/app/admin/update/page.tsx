@@ -215,7 +215,7 @@ export default function UpdateProduct() {
             }}
           />
 
-          <label>
+          <label className="flex gap-[5px]">
             Description:
             <span className="text-red-500">*</span>
             <div className="relative flex group">
@@ -262,7 +262,7 @@ export default function UpdateProduct() {
           <label>Tag:</label>
           <input
             name="tag"
-            value={formData.tag}
+            value={formData.tag ?? ""}
             className={inputcss}
             onChange={(prev) => {
               setFormData({ ...formData, tag: prev.target.value });

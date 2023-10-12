@@ -9,6 +9,7 @@ import AdminDashboard from "@/app/components/AdminDashboard";
 import { ZodError } from "zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { dataSchema } from "@/app/utils/zodTypes";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -38,16 +39,16 @@ export default function AddProduct() {
 
     try {
       //Data validation
-      if (files.length === 0) {
-        throw Error("Please Upload Image(s)");
+      if (files.length <= 0 || files.length > 9) {
+        throw Error(
+          "Images count restriction. Upload at least 1 and upto 8 images.",
+        );
       }
 
       //Uploadthing
       const smallFiles = await compressMany(files as File[]);
 
       const verify = new Promise((resolve, reject) => {
-        if (smallFiles.length > 8) reject();
-
         smallFiles.forEach((i) => {
           if (i.size > 2_000_000) {
             reject("Image size too large. Size Limit: 2MB");
@@ -57,6 +58,11 @@ export default function AddProduct() {
         resolve(true);
       });
 
+      //Validate form data
+      let imgs = ""; // empty imgs to satisfy zod. Imgs will get validated by promises below.
+      const reqBody = dataSchema.parse({ ...formData, imgs });
+
+      //Upload to UploadThing
       const uploadedImgs: UploadFileResponse[] = (await new Promise(
         async (resolve, reject) => {
           try {
@@ -69,8 +75,6 @@ export default function AddProduct() {
       )) as UploadFileResponse[];
 
       //POST to Pscale DB
-
-      let imgs = "";
       uploadedImgs.forEach((i) => {
         imgs += `${i.key}|`;
       });
@@ -84,7 +88,7 @@ export default function AddProduct() {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ ...formData, imgs }),
+        body: JSON.stringify({ ...reqBody, imgs }),
       });
 
       const data = await res.json();
@@ -111,10 +115,15 @@ export default function AddProduct() {
         toast.error(
           e.issues
             .map((err) => {
-              return err.message;
+              return `${JSON.stringify(err.path.toString())}: ${err.message}`;
             })
-            .toString(),
+            .toString()
+            .replaceAll(",", "\n"),
         );
+      } else if (e instanceof Error) {
+        toast.error(e.message);
+      } else {
+        toast.error("An error occurred while adding. Please try again later");
       }
     } finally {
       setLoading(false);
@@ -127,7 +136,11 @@ export default function AddProduct() {
   return (
     <div className="flex flex-col m-auto items-center w-[600px] lg:w-full p-2">
       <AdminDashboard />
-      <ToastContainer position="bottom-right" autoClose={10_000} />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={10_000}
+        className="whitespace-pre-wrap"
+      />
 
       <h1 className="text-3xl font-semibold text-[var(--accent-clr2)] w-full">
         Add Product
