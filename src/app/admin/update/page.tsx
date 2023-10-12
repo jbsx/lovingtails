@@ -1,11 +1,13 @@
 "use client";
 import { useRef, useState } from "react";
-import Msg from "../../components/Msg";
 import { CustomUploader } from "../../components/CustomUploader";
 import { useUploadThing } from "../../utils/uploadthing";
 import { compressMany } from "../../utils/imgProcessing";
 import Loading from "../../components/Loading";
 import { UploadFileResponse } from "uploadthing/client";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { dataSchema } from "@/app/utils/zodTypes";
 
 export default function UpdateProduct() {
   const [formData, setFormData] = useState({
@@ -26,14 +28,10 @@ export default function UpdateProduct() {
 
   const [loading, setLoading] = useState(false);
 
-  const [msg, setMsg] = useState<{ type: "S" | "E"; message: string } | null>(
-    null,
-  );
-
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
     onUploadError: (e) => {
-      setMsg({ type: "E", message: e.message });
+      toast.error(e.message);
     },
   });
 
@@ -62,6 +60,9 @@ export default function UpdateProduct() {
         }
       });
 
+      //Validate form data
+      const reqBody = dataSchema.parse(formData);
+
       //Upload new Images
       let res: UploadFileResponse[];
       if (smallImgs.length > 0) {
@@ -83,7 +84,6 @@ export default function UpdateProduct() {
       let imgs = temp.reduce((acc, curr) => {
         return (acc as string) + "|" + curr;
       });
-      console.log(imgs);
 
       const data = await (
         await fetch(process.env.URL + "/api/db/updateProduct", {
@@ -94,15 +94,12 @@ export default function UpdateProduct() {
           headers: {
             "Content-type": "application/json",
           },
-          body: JSON.stringify({ ...formData, imgs, ogTitle: ogTitle.current }),
+          body: JSON.stringify({ ...reqBody, imgs, ogTitle: ogTitle.current }),
         })
       ).json();
 
       if (data.success) {
-        setMsg({
-          type: "S",
-          message: "Product Updated",
-        });
+        toast.success("Product Updated");
 
         setFormData({
           title: "",
@@ -114,16 +111,13 @@ export default function UpdateProduct() {
           amznlink: "",
         });
       } else {
-        setMsg({ type: "E", message: data.message });
+        toast.error(data.message);
       }
     } catch (e) {
       if (e instanceof Error) {
-        setMsg({ type: "E", message: e.message });
+        toast.error(e.message);
       } else {
-        setMsg({
-          type: "E",
-          message: "Something went wrong. Please try again later",
-        });
+        toast.error("Something went wrong. Please try again later");
       }
     }
 
@@ -135,6 +129,7 @@ export default function UpdateProduct() {
 
   return (
     <div className="flex flex-col items-center">
+      <ToastContainer position="bottom-right" autoClose={10_000} />
       <div className="w-[600px] lg:w-full p-2">
         <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
           Update Product
@@ -176,12 +171,9 @@ export default function UpdateProduct() {
                 ogTitle.current = loadTitle;
               } catch (e) {
                 if (e instanceof Error) {
-                  setMsg({ type: "E", message: e.message });
+                  toast.error(e.message);
                 } else {
-                  setMsg({
-                    type: "E",
-                    message: "Something went wrong. Please try again later",
-                  });
+                  toast.error("Something went wrong. Please try again later");
                 }
               }
             }}
@@ -189,8 +181,6 @@ export default function UpdateProduct() {
             Load
           </button>
         </div>
-
-        {msg && <Msg type={msg.type} message={msg.message} />}
 
         <form
           className="flex flex-col gap-[10px] text-lg"

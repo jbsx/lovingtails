@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
-import Msg from "../../components/Msg";
 import { CustomUploader } from "../../components/CustomUploader";
 import { useUploadThing } from "../../utils/uploadthing";
 import { compressMany } from "../../utils/imgProcessing";
 import Loading from "../../components/Loading";
 import { UploadFileResponse } from "uploadthing/client";
 import AdminDashboard from "@/app/components/AdminDashboard";
+import { ZodError } from "zod";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -23,21 +25,16 @@ export default function AddProduct() {
 
   const [loading, setLoading] = useState(false);
 
-  const [msg, setMsg] = useState<{ type: "S" | "E"; message: string } | null>(
-    null,
-  );
-
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
     onUploadError: (e) => {
-      setMsg({ type: "E", message: e.message });
+      toast.error(e.message);
       setLoading(false);
     },
   });
 
   const handleSubmit = async () => {
     setLoading(true);
-    setMsg(null);
 
     try {
       //Data validation
@@ -93,10 +90,7 @@ export default function AddProduct() {
       const data = await res.json();
 
       if (data.success) {
-        setMsg({
-          type: "S",
-          message: "Product Added",
-        });
+        toast.success("Product added.");
 
         setFormData({
           title: "",
@@ -113,8 +107,14 @@ export default function AddProduct() {
         throw Error(data.message);
       }
     } catch (e) {
-      if (e instanceof Error) {
-        setMsg({ type: "E", message: e.message });
+      if (e instanceof ZodError) {
+        toast.error(
+          e.issues
+            .map((err) => {
+              return err.message;
+            })
+            .toString(),
+        );
       }
     } finally {
       setLoading(false);
@@ -127,12 +127,12 @@ export default function AddProduct() {
   return (
     <div className="flex flex-col m-auto items-center w-[600px] lg:w-full p-2">
       <AdminDashboard />
+      <ToastContainer position="bottom-right" autoClose={10_000} />
 
       <h1 className="text-3xl font-semibold text-[var(--accent-clr2)] w-full">
         Add Product
       </h1>
 
-      {msg && <Msg type={msg.type} message={msg.message} />}
       <form
         className="flex flex-col w-full gap-[10px] text-lg"
         onSubmit={(e) => {

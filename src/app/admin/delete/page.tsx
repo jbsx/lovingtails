@@ -1,17 +1,14 @@
 "use client";
 import { useState } from "react";
-import Msg from "../../components/Msg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DeleteProduct() {
-  const [msg, setMsg] = useState<{ type: "S" | "E"; message: string } | null>(
-    null,
-  );
-
   const [deleteTitle, setDeleteTitle] = useState("");
 
   const handleSubmit = async () => {
-    //ZOD validation
-    //Upload images on Uploadthing
+    //TODO: Delete images from Uploadthing
+
     //POST on /api/db/addProduct
     const res = await fetch(process.env.URL + "/api/db/deleteProduct", {
       method: "POST",
@@ -23,12 +20,16 @@ export default function DeleteProduct() {
       },
       body: JSON.stringify({ title: deleteTitle }),
     });
-    const temp = await res.json();
-    if (temp.success) {
-      setMsg({
-        type: "S",
-        message: "Product Deleted",
-      });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Product Deleted");
+      } else {
+        toast.error("Error. Try again later.");
+      }
+    } else {
+      toast.error("Error. Try again later.");
     }
   };
 
@@ -36,11 +37,11 @@ export default function DeleteProduct() {
 
   return (
     <div className="flex justify-center">
+      <ToastContainer position="bottom-right" autoClose={10_000} />
       <div className="w-[600px] lg:w-full p-2">
         <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
           Delete Product
         </h1>
-        {msg && <Msg type={msg.type} message={msg.message} />}
         <form
           className="flex flex-col gap-[10px] text-lg"
           onSubmit={(e) => {

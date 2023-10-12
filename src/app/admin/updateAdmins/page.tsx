@@ -1,9 +1,11 @@
 "use client";
-import { z } from "zod";
+import { ZodError, z } from "zod";
 import { adminsSchema } from "@/app/utils/zodTypes";
 import { useEffect, useState } from "react";
 import Loading from "@/app/components/Loading";
 import AdminDashboard from "@/app/components/AdminDashboard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +13,6 @@ export default function UpdateAdmins() {
   const [admins, setAdmins] = useState<z.infer<typeof adminsSchema>[] | null>(
     null,
   );
-  const [selected, setSelected] = useState<z.infer<typeof adminsSchema>[]>([]);
   const [newAdmin, setNewAdmin] = useState("");
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function UpdateAdmins() {
   return (
     <div className="flex flex-col flex-wrap items-center p-4 md:w-full">
       <AdminDashboard />
+      <ToastContainer position="bottom-right" autoClose={10_000} />
       {admins ? (
         <div className="flex flex-col gap-[10px] py-8 md:w-full">
           <h2 className="text-xl uppercase">Admins</h2>
@@ -32,45 +34,40 @@ export default function UpdateAdmins() {
             return (
               <div
                 key={i.email}
-                className="flex gap-[10px] border-2 border-[var(--accent-clr2)] p-2 m-1"
+                className="flex justify-between items-center gap-[10px] border-2 border-[var(--accent-clr2)] p-2 m-1"
               >
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelected([...selected, { email: i.email }]);
+                <div>{i.email}</div>
+                <button
+                  onClick={async () => {
+                    const res = await fetch(
+                      process.env.URL + "/api/db/deleteAdmin",
+                      {
+                        method: "POST",
+                        body: JSON.stringify({ data: i }),
+                      },
+                    );
+                    if (res.ok) {
+                      const data = await res.json();
+                      if (data.success) {
+                        const temp = [...admins];
+                        temp.splice(idx, 1);
+                        setAdmins(temp);
+                      } else {
+                        toast.error("Error. Try again later");
+                      }
                     } else {
-                      const temp = [...selected];
-                      temp.splice(idx, 1);
-                      setSelected(temp);
+                      toast.error("Error. Try again later");
                     }
                   }}
-                  className="w-[25px]"
-                ></input>
-                <div>{i.email}</div>
+                  className="cursor-pointer text-[var(--accent-clr2)] w-fit hover:bg-[var(--accent-clr2)]
+                    hover:text-white py-1 px-2 uppercase text-lg font-semibold border-[3px] border-[var(--accent-clr2)]
+                    outline-none"
+                >
+                  Delete
+                </button>
               </div>
             );
           })}
-          {selected.length > 0 && (
-            <button
-              onClick={async () => {
-                const res = await fetch(
-                  process.env.URL + "/api/db/deleteAdmin",
-                  {
-                    method: "POST",
-                    body: JSON.stringify({ data: selected }),
-                  },
-                ).then((res) => res.json());
-                //TODO
-                console.log(res);
-              }}
-              className="cursor-pointer text-[var(--accent-clr2)] w-fit hover:bg-[var(--accent-clr2)]
-                    hover:text-white p-2 uppercase text-lg font-semibold border-[3px] border-[var(--accent-clr2)]
-                    outline-none"
-            >
-              Delete Selected
-            </button>
-          )}
           <div className="flex gap-[10px] md:w-full">
             <input
               name="newAdmin"
@@ -97,13 +94,25 @@ export default function UpdateAdmins() {
                       if (data.success) {
                         setAdmins([...admins, data.data]);
                         setNewAdmin("");
+                      } else {
+                        toast.error("Error. Try again later");
                       }
                     });
+                  } else {
+                    toast.error("Error. Try again later");
                   }
-                } catch {
-                  //TODO
-                  //display ERROR msg
-                  console.log("ERROR");
+                } catch (e) {
+                  if (e instanceof ZodError) {
+                    toast.error(
+                      e.issues
+                        .map((err) => {
+                          return err.message;
+                        })
+                        .toString(),
+                    );
+                  } else {
+                    toast.error("Error. Try again later");
+                  }
                 }
               }}
               className="cursor-pointer text-[var(--accent-clr2)] w-[20%] hover:bg-[var(--accent-clr2)]
