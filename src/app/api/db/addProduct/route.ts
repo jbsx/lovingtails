@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
+import prisma from "@/app/utils/db";
 
-const prisma = new PrismaClient();
-
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   try {
     const reqBody = dataSchema.parse(await req.json());
 

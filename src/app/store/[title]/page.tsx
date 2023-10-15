@@ -5,14 +5,13 @@ import { z } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
 import amznlogo from "../../../../public/amazon.svg";
 import Image from "next/image";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/utils/db";
 
 //ISR - revalidate 24 hours
 export const revalidate = 1440;
 
 //Server site generation
 export async function generateStaticParams() {
-  const prisma = new PrismaClient();
   const res = await prisma.products.findMany({
     orderBy: {
       priority: "desc",

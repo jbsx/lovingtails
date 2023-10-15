@@ -1,9 +1,6 @@
+[ ] authenticate session on page reload (in case the role has been revoked)
 [ ] storing and filter products in the store page
-[X] product priority
 [ ] delete from uploadthing on product update and delete
 [ ] look into performance improvements
-[ ] preview markup whilst typing
 [ ] mass upload to db and uploadthing
-[ ] loading pulse state page
-[ ] authenticate session on page reload (in case the role has been revoked)
-[ ] make communication with the backend seem smooth
+[ ] google analytics

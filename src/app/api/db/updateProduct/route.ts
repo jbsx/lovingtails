@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/utils/db";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {

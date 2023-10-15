@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CustomUploader } from "../../components/CustomUploader";
 import { useUploadThing } from "../../utils/uploadthing";
 import { compressMany } from "../../utils/imgProcessing";
@@ -10,6 +10,8 @@ import { ZodError } from "zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { dataSchema } from "@/app/utils/zodTypes";
+import { remark } from "remark";
+import html from "remark-html";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -25,6 +27,15 @@ export default function AddProduct() {
   const [files, setFiles] = useState<Array<File | string>>([]);
 
   const [loading, setLoading] = useState(false);
+
+  const [preview, setPreview] = useState(false);
+  const [markdown, setMarkdown] = useState("");
+  useEffect(() => {
+    remark()
+      .use(html)
+      .process(formData.desc)
+      .then((res) => setMarkdown(res.toString()));
+  }, [preview]);
 
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
@@ -134,7 +145,7 @@ export default function AddProduct() {
   const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";
 
   return (
-    <div className="flex flex-col m-auto items-center w-[600px] lg:w-full p-2">
+    <div className="flex flex-col m-auto items-center w-[800px] lg:w-full p-2">
       <AdminDashboard />
       <ToastContainer
         position="bottom-right"
@@ -198,14 +209,39 @@ export default function AddProduct() {
             </div>
           </div>
         </label>
-        <textarea
-          name="desc"
-          value={formData.desc}
-          className={"h-[300px] mb-2 rounded outline-none p-[10px] text-base"}
-          onChange={(prev) => {
-            setFormData({ ...formData, desc: prev.target.value });
-          }}
-        ></textarea>
+        <div className="flex gap-[5px] justify-around w-full">
+          <button
+            type="button"
+            className="p-2 w-1/2 hover:bg-[rgba(255,255,255,2)] outline-none border border-[var(--accent-clr1)]"
+            onClick={() => [setPreview(false)]}
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            className="p-2 w-1/2 hover:bg-[rgba(255,255,255,2)] outline-none border border-[var(--accent-clr1)]"
+            onClick={() => [setPreview(true)]}
+          >
+            Preview
+          </button>
+        </div>
+        {preview ? (
+          <div className="border-2 border-[var(--accent-clr2)] p-2 min-h-[300px]">
+            <div
+              className="prose"
+              dangerouslySetInnerHTML={{ __html: markdown }}
+            />
+          </div>
+        ) : (
+          <textarea
+            name="desc"
+            value={formData.desc}
+            className={"h-[300px] mb-2 rounded outline-none p-[10px] text-base"}
+            onChange={(prev) => {
+              setFormData({ ...formData, desc: prev.target.value });
+            }}
+          ></textarea>
+        )}
 
         <label>
           Price:
@@ -216,7 +252,13 @@ export default function AddProduct() {
           value={formData.price}
           className={inputcss}
           onChange={(event) => {
-            setFormData({ ...formData, price: parseFloat(event.target.value) });
+            setFormData({
+              ...formData,
+              price:
+                event.target.value.length === 0
+                  ? 0
+                  : parseFloat(event.target.value),
+            });
           }}
         />
 
@@ -245,8 +287,14 @@ export default function AddProduct() {
           name="priority"
           value={formData.priority}
           className={inputcss}
-          onChange={(prev) => {
-            setFormData({ ...formData, priority: parseInt(prev.target.value) });
+          onChange={(event) => {
+            setFormData({
+              ...formData,
+              priority:
+                event.target.value.length === 0
+                  ? 0
+                  : parseFloat(event.target.value),
+            });
           }}
         />
 

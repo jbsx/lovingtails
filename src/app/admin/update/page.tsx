@@ -1,6 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { CustomUploader } from "../../components/CustomUploader";
+import AdminDashboard from "@/app/components/AdminDashboard";
 import { useUploadThing } from "../../utils/uploadthing";
 import { compressMany } from "../../utils/imgProcessing";
 import Loading from "../../components/Loading";
@@ -8,6 +9,9 @@ import { UploadFileResponse } from "uploadthing/client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { dataSchema } from "@/app/utils/zodTypes";
+import { ZodError } from "zod";
+import { remark } from "remark";
+import html from "remark-html";
 
 export default function UpdateProduct() {
   const [formData, setFormData] = useState({
@@ -27,6 +31,15 @@ export default function UpdateProduct() {
   const [files, setFiles] = useState<Array<File | string>>([]);
 
   const [loading, setLoading] = useState(false);
+
+  const [preview, setPreview] = useState(false);
+  const [markdown, setMarkdown] = useState("");
+  useEffect(() => {
+    remark()
+      .use(html)
+      .process(formData.desc)
+      .then((res) => setMarkdown(res.toString()));
+  }, [preview]);
 
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
@@ -114,10 +127,19 @@ export default function UpdateProduct() {
         toast.error(data.message);
       }
     } catch (e) {
-      if (e instanceof Error) {
+      if (e instanceof ZodError) {
+        toast.error(
+          e.issues
+            .map((err) => {
+              return `${JSON.stringify(err.path.toString())}: ${err.message}`;
+            })
+            .toString()
+            .replaceAll(",", "\n"),
+        );
+      } else if (e instanceof Error) {
         toast.error(e.message);
       } else {
-        toast.error("Something went wrong. Please try again later");
+        toast.error("An error occurred while adding. Please try again later");
       }
     }
 
@@ -128,14 +150,15 @@ export default function UpdateProduct() {
   const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center py-2">
+      <AdminDashboard />
       <ToastContainer position="bottom-right" autoClose={10_000} />
-      <div className="w-[600px] lg:w-full p-2">
+      <div className="w-[800px] lg:w-full p-2">
         <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">
           Update Product
         </h1>
 
-        <div className="flex justify-center items-center text-xl gap-[10px] p-4">
+        <div className="flex justify-center items-center text-xl gap-[10px] p-4 lg:w-full">
           <label>Title: </label>
           <input
             name="loadTitle"
@@ -167,6 +190,7 @@ export default function UpdateProduct() {
                   );
 
                 setFormData({ ...res.product });
+                if (!res.product.tag) setFormData({ ...res.product, tag: "" });
                 setFiles(res.product.imgs.split("|"));
                 ogTitle.current = loadTitle;
               } catch (e) {
@@ -234,14 +258,41 @@ export default function UpdateProduct() {
               </div>
             </div>
           </label>
-          <textarea
-            name="desc"
-            value={formData.desc}
-            className={inputcss}
-            onChange={(prev) => {
-              setFormData({ ...formData, desc: prev.target.value });
-            }}
-          ></textarea>
+          <div className="flex gap-[5px] justify-around w-full">
+            <button
+              type="button"
+              className="p-2 w-1/2 hover:bg-[rgba(255,255,255,2)] outline-none border border-[var(--accent-clr1)]"
+              onClick={() => [setPreview(false)]}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="p-2 w-1/2 hover:bg-[rgba(255,255,255,2)] outline-none border border-[var(--accent-clr1)]"
+              onClick={() => [setPreview(true)]}
+            >
+              Preview
+            </button>
+          </div>
+          {preview ? (
+            <div className="border-2 border-[var(--accent-clr2)] p-2 min-h-[300px]">
+              <div
+                className="prose"
+                dangerouslySetInnerHTML={{ __html: markdown }}
+              />
+            </div>
+          ) : (
+            <textarea
+              name="desc"
+              value={formData.desc}
+              className={
+                "h-[300px] mb-2 rounded outline-none p-[10px] text-base"
+              }
+              onChange={(prev) => {
+                setFormData({ ...formData, desc: prev.target.value });
+              }}
+            ></textarea>
+          )}
 
           <label>
             Price:
@@ -254,7 +305,10 @@ export default function UpdateProduct() {
             onChange={(event) => {
               setFormData({
                 ...formData,
-                price: parseFloat(event.target.value),
+                price:
+                  event.target.value.length === 0
+                    ? 0
+                    : parseFloat(event.target.value),
               });
             }}
           />
@@ -262,7 +316,7 @@ export default function UpdateProduct() {
           <label>Tag:</label>
           <input
             name="tag"
-            value={formData.tag ?? ""}
+            value={formData.tag}
             className={inputcss}
             onChange={(prev) => {
               setFormData({ ...formData, tag: prev.target.value });
@@ -284,10 +338,13 @@ export default function UpdateProduct() {
             name="priority"
             value={formData.priority}
             className={inputcss}
-            onChange={(prev) => {
+            onChange={(event) => {
               setFormData({
                 ...formData,
-                priority: parseInt(prev.target.value),
+                priority:
+                  event.target.value.length === 0
+                    ? 0
+                    : parseFloat(event.target.value),
               });
             }}
           />

@@ -1,4 +1,5 @@
 "use client";
+import AdminDashboard from "@/app/components/AdminDashboard";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,7 +37,8 @@ export default function DeleteProduct() {
   const inputcss = "min-h-[40px] rounded outline-none p-[10px] text-base";
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center py-2">
+      <AdminDashboard />
       <ToastContainer position="bottom-right" autoClose={10_000} />
       <div className="w-[600px] lg:w-full p-2">
         <h1 className="text-3xl font-semibold text-[var(--accent-clr2)]">

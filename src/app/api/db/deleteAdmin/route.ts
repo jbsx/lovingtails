@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/utils/db";
 import { NextResponse } from "next/server";
 import { adminsSchema } from "../../../utils/zodTypes";
 import { z } from "zod";
 
 export async function POST(req: Request) {
-  const prisma = new PrismaClient();
-
   try {
     const reqBody = await req.json();
     const newAdmin = reqBody.data as z.infer<typeof adminsSchema>;

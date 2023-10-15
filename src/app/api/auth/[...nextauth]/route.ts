@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import NextAuth from "next-auth";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/app/utils/db";
 
 const handler = NextAuth({
   providers: [
@@ -12,8 +12,6 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({ account, profile }) {
-      const prisma = new PrismaClient();
-
       if (account?.provider === "google") {
         const res = await prisma.admins.findFirst({
           where: {
@@ -24,6 +22,9 @@ const handler = NextAuth({
       }
       return false; // Do different verification for other providers that don't have `email_verified`
     },
+  },
+  session: {
+    maxAge: 3600, //in seconds (1 hour)
   },
 } as NextAuthOptions);
 

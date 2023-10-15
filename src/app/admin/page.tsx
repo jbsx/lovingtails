@@ -28,16 +28,16 @@ export default function Admin() {
         <h2 className="text-xl uppercase">Admin</h2>
         <div className="flex flex-wrap justify-center p-3 gap-[10px]">
           <a
-            href={"/api/auth/signout"}
-            className="px-8 py-2 border-2 border-[var(--accent-clr2)] hover:bg-[var(--accent-clr2)] hover:text-white"
-          >
-            Sign Out
-          </a>
-          <a
             href={"/admin/updateAdmins"}
             className="px-8 py-2 border-2 border-[var(--accent-clr2)] hover:bg-[var(--accent-clr2)] hover:text-white"
           >
             Update Admin List
+          </a>
+          <a
+            href={"/api/auth/signout"}
+            className="px-8 py-2 border-2 border-[var(--accent-clr2)] hover:bg-[var(--accent-clr2)] hover:text-white"
+          >
+            Sign Out
           </a>
         </div>
       </div>
