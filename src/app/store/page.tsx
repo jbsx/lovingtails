@@ -3,6 +3,8 @@ import { z } from "zod";
 import { dataSchema } from "../utils/zodTypes";
 import PaginationControl from "../components/PaginationControl";
 
+export const revalidate = 3600;
+
 export default async function Store({
   searchParams,
 }: {
@@ -22,9 +24,6 @@ export default async function Store({
         skip: start,
         take: per_page,
       }),
-      next: {
-        revalidate: 1440, // 60M * 24H - everyday - value in minutes
-      },
     });
 
     if (res.ok) {

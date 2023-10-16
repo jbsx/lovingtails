@@ -2,13 +2,25 @@ import prisma from "@/app/utils/db";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
+import { UTApi } from "uploadthing/server";
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
 
-    //TODO: delete the deleted images from UploadThing
+    //delete images from UploadThing
+    const old = await prisma.products.findFirst({
+      where: { title: data.ogTitle },
+    });
 
+    const oldimgs = old?.imgs.split("|");
+    const newimgs = data.imgs.split("|");
+
+    const innerjoin = oldimgs?.filter((i) => {
+      return !newimgs.includes(i);
+    }) as string[];
+
+    //delete from database
     const newEntry = await prisma.products.update({
       where: {
         title: data.ogTitle,
@@ -18,9 +30,14 @@ export async function POST(req: Request) {
         tag: data.tag ? data.tag : null,
       },
     });
+
+    const utapi = new UTApi();
+    await utapi.deleteFiles(innerjoin);
+
     return NextResponse.json({ success: true, data: newEntry });
   } catch (error) {
     console.error("Request error", error);
+
     if (error instanceof ZodError) {
       let msg = "Invalid Input: ";
       error.issues.forEach((i) => {
