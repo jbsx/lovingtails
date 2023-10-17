@@ -1,6 +1,4 @@
 [ ] authenticate session on page reload (in case the role has been revoked)
-[ ] storing and filter products in the store page
-[ ] delete from uploadthing on product update and delete
+[ ] sorting and filter products in the store page
 [ ] look into performance improvements
-[ ] mass upload to db and uploadthing
 [ ] google analytics

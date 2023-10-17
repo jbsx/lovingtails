@@ -123,6 +123,7 @@ export default function UpdateProduct() {
           priority: 0,
           amznlink: "",
         });
+        setFiles([]);
       } else {
         toast.error(data.message);
       }

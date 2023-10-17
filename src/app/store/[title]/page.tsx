@@ -3,8 +3,7 @@ import Markdown from "@/app/components/Markdown";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
-import amznlogo from "../../../../public/amazon.svg";
-import Image from "next/image";
+import { FaAmazon } from "react-icons/fa";
 import prisma from "@/app/utils/db";
 
 //ISR - revalidate 24 hours
@@ -46,7 +45,7 @@ export default async function ProductPage({ params }: ParamsType) {
   const p: z.infer<typeof dataSchema> = res.product;
 
   return (
-    <div className="mix-blend-multiply flex flex-wrap justify-center mt-[2em]">
+    <div className="mix-blend-multiply flex flex-wrap justify-center mt-[4em]">
       <ImagePreview p={p.imgs} />
       <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
         <h1 className="text-3xl font-semibold py-[0.5em]">{p.title}</h1>
@@ -63,8 +62,8 @@ export default async function ProductPage({ params }: ParamsType) {
 
         <div className="py-[1em]">
           <a target="_blank" href={p.amznlink}>
-            <div className="flex items-center justify-center w-fit px-[4em] py-[1em] hover:bg-[#221f1f] text-white border-2 border-black">
-              <Image width={50} height={50} src={amznlogo} alt="amazon-logo" />
+            <div className="flex items-center justify-center w-fit px-[4em] py-[1em] hover:bg-[#221f1f] group border-2 border-black">
+              <FaAmazon className="text-[var(--accent-clr2)] group-hover:text-white text-3xl" />
             </div>
           </a>
         </div>

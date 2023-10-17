@@ -1,5 +1,6 @@
 "use client";
 import ImageGallery from "react-image-gallery";
+import Image from "next/image";
 import { ReactImageGalleryItem } from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
@@ -16,7 +17,11 @@ export default function ImagePreview(params: Args) {
       originalAlt: path,
       renderItem: () => {
         return (
-          <img
+          <Image
+            width={700}
+            height={700}
+            placeholder="blur"
+            blurDataURL={"/loading.svg"}
             src={`http://utfs.io/f/${images[i]}`}
             alt={"Product img"}
             key={path}
@@ -31,7 +36,6 @@ export default function ImagePreview(params: Args) {
       items={imggallery}
       showFullscreenButton={false}
       showPlayButton={false}
-      lazyLoad={true}
       additionalClass="w-[700px]"
     />
   );

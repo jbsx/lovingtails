@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     });
 
     const utapi = new UTApi();
-    await utapi.deleteFiles(innerjoin);
+    if (innerjoin.length > 0) await utapi.deleteFiles(innerjoin);
 
     return NextResponse.json({ success: true, data: newEntry });
   } catch (error) {
