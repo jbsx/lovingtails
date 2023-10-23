@@ -8,13 +8,9 @@ export default function DeleteProduct() {
   const [deleteTitle, setDeleteTitle] = useState("");
 
   const handleSubmit = async () => {
-    //TODO: Delete images from Uploadthing
-
-    //POST on /api/db/addProduct
     const res = await fetch(process.env.URL + "/api/db/deleteProduct", {
       method: "POST",
       mode: "same-origin",
-      cache: "no-store",
       credentials: "same-origin",
       headers: {
         "Content-type": "application/json",
@@ -23,12 +19,7 @@ export default function DeleteProduct() {
     });
 
     if (res.ok) {
-      const data = await res.json();
-      if (data.success) {
-        toast.success("Product Deleted");
-      } else {
-        toast.error("Error. Try again later.");
-      }
+      toast.success("Product Deleted");
     } else {
       toast.error("Error. Try again later.");
     }

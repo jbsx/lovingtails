@@ -3,8 +3,6 @@ import { z } from "zod";
 import { dataSchema } from "../utils/zodTypes";
 import PaginationControl from "../components/PaginationControl";
 
-export const revalidate = 3600;
-
 export default async function Store({
   searchParams,
 }: {
@@ -15,23 +13,17 @@ export default async function Store({
   const page = searchParams["page"] ?? "1";
   const per_page = 20;
 
-  const start = (Number(page) - 1) * per_page;
-
   const getData = async () => {
-    const res = await fetch(process.env.URL + "/api/db/getProducts", {
-      method: "POST",
-      body: JSON.stringify({
-        skip: start,
-        take: per_page,
-      }),
-    });
+    const res = await fetch(
+      process.env.URL + `/api/db/getProducts?page=${page}`,
+    );
 
     if (res.ok) {
       const data = await res.json();
-      if (data.success)
-        return [data.products as Array<z.infer<typeof dataSchema>>, data.count];
+      return [data.products as Array<z.infer<typeof dataSchema>>, data.count];
+    } else {
+      return [];
     }
-    return [];
   };
 
   let [products, count] = await getData();

@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
 import prisma from "@/app/utils/db";
+import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -13,23 +14,37 @@ export async function POST(req: Request) {
         tag: reqBody.tag ? reqBody.tag : null,
       },
     });
-    return NextResponse.json({ success: true, data });
+
+    revalidatePath("/store");
+
+    return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
-    console.error("Request error", error);
     if (error instanceof ZodError) {
       let msg = "Invalid Input: ";
       error.issues.forEach((i) => {
         msg += `${i.message} (${i.path.flat()}), `;
       });
 
-      return NextResponse.json({
-        message: msg.slice(0, -2),
-        success: false,
-      });
+      return NextResponse.json(
+        {
+          error: new Error(msg.slice(0, -2)),
+        },
+        { status: 400, statusText: "Input Validation Error" },
+      );
+    } else if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          error,
+        },
+        { status: 500, statusText: error.message },
+      );
+    } else {
+      return NextResponse.json(
+        {
+          error,
+        },
+        { status: 500, statusText: "Internal Server Error" },
+      );
     }
-    return NextResponse.json({
-      message: "Server Error: 500",
-      success: false,
-    });
   }
 }

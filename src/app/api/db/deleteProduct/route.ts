@@ -7,25 +7,26 @@ export async function POST(req: Request) {
     const data = await req.json();
 
     const utapi = new UTApi();
-    const old = await prisma.products.findFirst({
-      where: { title: data.title },
-    });
-
-    const newEntry = await prisma.products.delete({
+    const deleted = await prisma.products.delete({
       where: {
         title: data.title,
       },
     });
 
-    await utapi.deleteFiles(old?.imgs.split("|") as string[]);
+    await utapi.deleteFiles(deleted?.imgs.split("|") as string[]);
 
-    return NextResponse.json({ success: true, data: newEntry });
+    return NextResponse.json(
+      { data: deleted },
+      { status: 200, statusText: "Deleted Successfully" },
+    );
   } catch (error) {
     console.error("Request error", error);
 
-    return NextResponse.json({
-      message: "Server Error: 500",
-      success: false,
-    });
+    return NextResponse.json(
+      {
+        error,
+      },
+      { status: 500, statusText: "Internal Server Error" },
+    );
   }
 }

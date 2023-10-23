@@ -16,11 +16,19 @@ export default function UpdateAdmins() {
   const [newAdmin, setNewAdmin] = useState("");
 
   useEffect(() => {
-    fetch(process.env.URL + "/api/db/getAdmins").then((res) =>
-      res.json().then((data) => {
-        setAdmins(data.admins as z.infer<typeof adminsSchema>[]);
-      }),
-    );
+    fetch(process.env.URL + "/api/db/getAdmins")
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            setAdmins(data.admins as z.infer<typeof adminsSchema>[]);
+          });
+        } else {
+          toast.error("Internal Server Error");
+        }
+      })
+      .catch(() => {
+        toast.error("Couldn't reach server. Try again later.");
+      });
   }, []);
 
   return (
@@ -34,7 +42,7 @@ export default function UpdateAdmins() {
             return (
               <div
                 key={i.email}
-                className="flex justify-between items-center gap-[10px] border-2 border-[var(--accent-clr2)] p-2 m-1"
+                className="flex justify-between items-center gap-[10px] border-2 border-[var(--accent-clr2)] p-2"
               >
                 <div>{i.email}</div>
                 <button
@@ -47,15 +55,13 @@ export default function UpdateAdmins() {
                       },
                     );
                     if (res.ok) {
-                      const data = await res.json();
-                      if (data.success) {
-                        const temp = [...admins];
-                        temp.splice(idx, 1);
-                        setAdmins(temp);
-                      } else {
-                        toast.error("Error. Try again later");
-                      }
+                      const temp = [...admins];
+                      temp.splice(idx, 1);
+                      setAdmins(temp);
+                      toast.success("Admin deleted");
                     } else {
+                      const data = await res.json();
+                      console.log(data.error);
                       toast.error("Error. Try again later");
                     }
                   }}
@@ -91,12 +97,9 @@ export default function UpdateAdmins() {
                   );
                   if (res.ok) {
                     res.json().then((data) => {
-                      if (data.success) {
-                        setAdmins([...admins, data.data]);
-                        setNewAdmin("");
-                      } else {
-                        toast.error("Error. Try again later");
-                      }
+                      setAdmins([...admins, data.data]);
+                      setNewAdmin("");
+                      toast.success("Admin added");
                     });
                   } else {
                     toast.error("Error. Try again later");

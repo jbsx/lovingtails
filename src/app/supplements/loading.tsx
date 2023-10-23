@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Loading() {
   return (
     <div className="w-full flex justify-center">
@@ -6,7 +8,7 @@ export default function Loading() {
           Supplements
         </h1>
         <div>
-          {[...Array(4).keys()].map((idx) => {
+          {[...Array(2).keys()].map((idx) => {
             return (
               <div
                 className={`flex gap-[50px] py-[4em] ${
@@ -16,14 +18,21 @@ export default function Loading() {
               >
                 <div className="flex flex-col gap-[10px] text-center">
                   <h1 className="text-xl text-[var(--accent-clr1)] font-semibold">
-                    loading...
+                    Loading...
                   </h1>
                   <div
                     className="animate-pulse w-[400px] h-[550px] p-[1em] bg-[rgba(0,0,0,0.03)]
                     sm:w-screen sm:h-fit sm:pb-[50px] text-slate-800"
                   ></div>
                 </div>
-                <div className="md:p-4 w-[600px]">loading...</div>
+                <div className="md:p-4 w-[600px] flex justify-center items-center">
+                  <Image
+                    src={process.env.URL + "/loading.svg"}
+                    width={80}
+                    height={80}
+                    alt="loading spinner"
+                  />
+                </div>
               </div>
             );
           })}

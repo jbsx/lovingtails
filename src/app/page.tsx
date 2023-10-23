@@ -25,8 +25,8 @@ export default async function Home() {
         />
       </div>
 
-      <div className="my-[15vh] text-xl text-justify bg-[var(--accent-clr2)] max-w-[1200px] relative py-[2em] z-[2] text-white font-medium">
-        <div className="flex flex-col items-center text-2xl leading-loose p-[2em] text-center sm:p-[0.5em] sm:text-xl">
+      <div className="my-[15vh] text-xl text-justify bg-[var(--accent-clr2)] max-w-[1200px] relative z-[2] text-white font-medium">
+        <div className="flex flex-col items-center gap-[3rem] text-2xl leading-loose p-[2em] text-center sm:p-[0.5em] sm:text-xl">
           <div className="absolute top-0 left-0 w-full h-full bg-[url(../../public/bowl_white.png)] bg-origin-content bg-[length:60px_40px] z-[-1] opacity-[10%]"></div>
           <MdPets className="w-[50px] h-[50px]" />
           At LovingTails, we believe that good health is the foundation of
@@ -52,8 +52,10 @@ export default async function Home() {
 
       <div className="flex flex-col items-center w-full my-[15vh] p-5">
         <div className="flex justify-center items-center">
-          <img
+          <Image
             src={bone.src}
+            width={300}
+            height={300}
             alt="bone"
             className="rotate-[150deg] w-[300px] lg:hidden p-[1em]"
           />

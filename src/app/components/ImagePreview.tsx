@@ -21,7 +21,7 @@ export default function ImagePreview(params: Args) {
             width={700}
             height={700}
             placeholder="blur"
-            blurDataURL={"/loading.svg"}
+            blurDataURL={process.env.URL + "/loading.svg"}
             src={`http://utfs.io/f/${images[i]}`}
             alt={"Product img"}
             key={path}

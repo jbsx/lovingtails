@@ -6,9 +6,6 @@ import { dataSchema } from "@/app/utils/zodTypes";
 import { FaAmazon } from "react-icons/fa";
 import prisma from "@/app/utils/db";
 
-//ISR - revalidate 24 hours
-export const revalidate = 1440;
-
 //Server site generation
 export async function generateStaticParams() {
   const res = await prisma.products.findMany({
@@ -19,7 +16,7 @@ export async function generateStaticParams() {
 
   return res.map((i: any) => {
     ({
-      title: i.title.replaceAll(" ", "%20"),
+      title: decodeURI(i.title),
     });
   });
 }
@@ -29,20 +26,18 @@ interface ParamsType {
 }
 
 export default async function ProductPage({ params }: ParamsType) {
-  const title = params.title.replaceAll("%20", " ");
+  const res = await fetch(
+    process.env.URL + `/api/db/getProductByTitle?title=${params.title}`,
+  );
 
-  const res = await (
-    await fetch(process.env.URL + "/api/db/getProductByTitle", {
-      method: "POST",
-      body: JSON.stringify({ title }),
-    })
-  ).json();
+  const data = await res.json();
 
-  if (!res.success) {
-    redirect("/404");
+  if (!res.ok) {
+    console.log(data.error);
+    return <div>Something went wrong. Please try again later.</div>;
   }
 
-  const p: z.infer<typeof dataSchema> = res.product;
+  const p: z.infer<typeof dataSchema> = data.product;
 
   return (
     <div className="mix-blend-multiply flex flex-wrap justify-center mt-[4em]">

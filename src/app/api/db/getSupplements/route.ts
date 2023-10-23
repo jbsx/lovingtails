@@ -1,7 +1,9 @@
 import prisma from "@/app/utils/db";
 import { NextResponse } from "next/server";
 
-export async function POST() {
+export const dynamic = "force-dynamic";
+
+export async function GET() {
   try {
     const products = await prisma.products.findMany({
       where: {
@@ -11,8 +13,11 @@ export async function POST() {
         priority: "desc",
       },
     });
-    return NextResponse.json({ success: true, products });
+    return NextResponse.json({ products }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ success: false });
+    return NextResponse.json(
+      { error },
+      { status: 500, statusText: "Internal Server Error" },
+    );
   }
 }

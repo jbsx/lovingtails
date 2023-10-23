@@ -3,17 +3,12 @@ import { dataSchema } from "../utils/zodTypes";
 import Product from "../components/Product";
 import Markdown from "../components/Markdown";
 
-export const dynamic = "force-dynamic";
-
 export default async function Supplements() {
   const getProducts = async (): Promise<z.infer<typeof dataSchema>[]> => {
-    const res = await fetch(process.env.URL + "/api/db/getSupplements", {
-      method: "POST",
-      cache: "no-store",
-    });
+    const res = await fetch(process.env.URL + "/api/db/getSupplements");
     if (res.ok) {
       const data = await res.json();
-      if (data.success) return data.products;
+      return data.products;
     }
     return [];
   };

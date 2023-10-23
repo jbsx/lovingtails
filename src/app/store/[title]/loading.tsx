@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <div className="mix-blend-multiply flex flex-wrap justify-center mt-[2em] animate-pulse">
-      <div className="w-[700px] h-[800px] bg-[var(--accent-clr2)] opacity-50 animate-pulse rounded-2"></div>
+      <div className="w-[700px] h-[800px] bg-zinc-300 opacity-50 animate-pulse rounded-xl"></div>
       <div className="flex flex-col m-[4em] max-w-[1000px] sm:m-[1em]">
         <h1 className="text-3xl font-semibold py-[0.5em]"></h1>
 

@@ -6,8 +6,8 @@ export async function POST(req: Request) {
   const reqBody = adminsSchema.parse(await req.json());
   try {
     const data = await prisma.admins.create({ data: reqBody });
-    return NextResponse.json({ success: true, data });
-  } catch {
-    return NextResponse.json({ success: false });
+    return NextResponse.json({ data }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

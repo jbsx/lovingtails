@@ -1,13 +1,17 @@
 import prisma from "@/app/utils/db";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-  const body = await req.json();
+export const dynamic = "force-dynamic";
+
+export async function GET(req: Request) {
   try {
-    const [products, count] = await prisma.$transaction([
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") ?? "1");
+
+    const [products, count] = await Promise.all([
       prisma.products.findMany({
-        skip: body.skip ?? 0,
-        take: body.take ?? 20,
+        skip: (page - 1) * 20,
+        take: 20,
         orderBy: {
           priority: "desc",
         },
@@ -15,9 +19,13 @@ export async function POST(req: Request) {
       prisma.products.count(),
     ]);
 
-    return NextResponse.json({ success: true, products, count });
+    return NextResponse.json({ products, count }, { status: 200 });
   } catch (error) {
-    console.error("Request error", error);
+    console.error("Error in getProducts: ", error);
+
+    return NextResponse.json(
+      { error },
+      { status: 500, statusText: "Internal Server Error" },
+    );
   }
-  return NextResponse.json({ success: false });
 }

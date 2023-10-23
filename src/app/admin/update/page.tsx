@@ -39,7 +39,7 @@ export default function UpdateProduct() {
       .use(html)
       .process(formData.desc)
       .then((res) => setMarkdown(res.toString()));
-  }, [preview]);
+  }, [preview, formData.desc]);
 
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
@@ -77,16 +77,16 @@ export default function UpdateProduct() {
       const reqBody = dataSchema.parse(formData);
 
       //Upload new Images
-      let res: UploadFileResponse[];
+      let imgres: UploadFileResponse[];
       if (smallImgs.length > 0) {
-        res = (await startUpload(smallImgs)) as UploadFileResponse[];
+        imgres = (await startUpload(smallImgs)) as UploadFileResponse[];
       }
 
       let temp = [...files];
       let count = 0;
       temp.forEach((i, idx) => {
         if (i instanceof File) {
-          temp[idx] = res[count].key;
+          temp[idx] = imgres[count].key;
           count++;
         }
       });
@@ -98,22 +98,19 @@ export default function UpdateProduct() {
         return (acc as string) + "|" + curr;
       });
 
-      const data = await (
-        await fetch(process.env.URL + "/api/db/updateProduct", {
-          method: "POST",
-          mode: "same-origin",
-          cache: "no-cache",
-          credentials: "same-origin",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ ...reqBody, imgs, ogTitle: ogTitle.current }),
-        })
-      ).json();
+      const res = await fetch(process.env.URL + "/api/db/updateProduct", {
+        method: "POST",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ ...reqBody, imgs, ogTitle: ogTitle.current }),
+      });
 
-      if (data.success) {
+      if (res.ok) {
         toast.success("Product Updated");
-
         setFormData({
           title: "",
           category: "",
@@ -125,7 +122,8 @@ export default function UpdateProduct() {
         });
         setFiles([]);
       } else {
-        toast.error(data.message);
+        const err = await res.json();
+        throw err.error;
       }
     } catch (e) {
       if (e instanceof ZodError) {
@@ -143,8 +141,6 @@ export default function UpdateProduct() {
         toast.error("An error occurred while adding. Please try again later");
       }
     }
-
-    //TODO: Cleanup in case of an error
     setLoading(false);
   };
 
@@ -174,25 +170,20 @@ export default function UpdateProduct() {
             className="p-2 outline-none rounded border-2 border-[var(--accent-clr2)] hover:bg-[var(--accent-clr2)] hover:text-white"
             onClick={async () => {
               try {
-                const res = await (
-                  await fetch(process.env.URL + `/api/db/getProductByTitle`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                      title: loadTitle,
-                    }),
-                  }).catch((e) => {
-                    throw e;
-                  })
-                ).json();
+                const res = await fetch(
+                  process.env.URL +
+                    `/api/db/getProductByTitle?title=${encodeURI(loadTitle)}`,
+                );
 
-                if (!res.success)
-                  throw Error(
-                    "Something went wrong. Please check input again.",
-                  );
+                if (!res.ok) {
+                  throw new Error(res.statusText);
+                }
+                const data = await res.json();
 
-                setFormData({ ...res.product });
-                if (!res.product.tag) setFormData({ ...res.product, tag: "" });
-                setFiles(res.product.imgs.split("|"));
+                setFormData({ ...data.product });
+                if (!data.product.tag)
+                  setFormData({ ...data.product, tag: "" });
+                setFiles(data.product.imgs.split("|"));
                 ogTitle.current = loadTitle;
               } catch (e) {
                 if (e instanceof Error) {

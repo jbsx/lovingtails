@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { dataSchema } from "@/app/utils/zodTypes";
 import { UTApi } from "uploadthing/server";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -34,7 +35,9 @@ export async function POST(req: Request) {
     const utapi = new UTApi();
     if (innerjoin.length > 0) await utapi.deleteFiles(innerjoin);
 
-    return NextResponse.json({ success: true, data: newEntry });
+    revalidatePath("/store");
+
+    return NextResponse.json({ data: newEntry }, { status: 200 });
   } catch (error) {
     console.error("Request error", error);
 
@@ -44,14 +47,18 @@ export async function POST(req: Request) {
         msg += `${i.message} (${i.path.flat()}), `;
       });
 
-      return NextResponse.json({
-        message: msg.slice(0, -2),
-        success: false,
-      });
+      return NextResponse.json(
+        {
+          error: msg.slice(0, -2),
+        },
+        { status: 500, statusText: "Input validation Error" },
+      );
     }
-    return NextResponse.json({
-      message: "Server Error: 500",
-      success: false,
-    });
+    return NextResponse.json(
+      {
+        error: JSON.stringify(error),
+      },
+      { status: 500, statusText: "Internal Sever Error" },
+    );
   }
 }

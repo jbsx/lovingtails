@@ -35,7 +35,7 @@ export default function AddProduct() {
       .use(html)
       .process(formData.desc)
       .then((res) => setMarkdown(res.toString()));
-  }, [preview]);
+  }, [preview, formData.desc]);
 
   //Custom Uploader
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
@@ -71,7 +71,11 @@ export default function AddProduct() {
 
       //Validate form data
       let imgs = ""; // empty imgs to satisfy zod. Imgs will get validated by promises below.
-      const reqBody = dataSchema.parse({ ...formData, imgs });
+      const reqBody = dataSchema.parse({
+        ...formData,
+        imgs,
+        tag: formData.tag === "" ? undefined : formData.tag,
+      });
 
       //Upload to UploadThing
       const uploadedImgs: UploadFileResponse[] = (await new Promise(
@@ -94,7 +98,6 @@ export default function AddProduct() {
       const res = await fetch(process.env.URL + "/api/db/addProduct", {
         method: "POST",
         mode: "same-origin",
-        cache: "no-cache",
         credentials: "same-origin",
         headers: {
           "Content-type": "application/json",
@@ -104,7 +107,9 @@ export default function AddProduct() {
 
       const data = await res.json();
 
-      if (data.success) {
+      if (res.status === 500) throw data.error;
+
+      if (res.ok) {
         toast.success("Product added.");
 
         setFormData({
@@ -119,7 +124,10 @@ export default function AddProduct() {
 
         setFiles([]);
       } else {
-        throw Error(data.message);
+        throw new Error(
+          (res.statusText ?? "Internal Server Error.") +
+            " Please check input and try again.",
+        );
       }
     } catch (e) {
       if (e instanceof ZodError) {
@@ -132,14 +140,13 @@ export default function AddProduct() {
             .replaceAll(",", "\n"),
         );
       } else if (e instanceof Error) {
-        toast.error(e.message);
+        toast.error("Please recheck input and try again.");
       } else {
-        toast.error("An error occurred while adding. Please try again later");
+        toast.error("Something went wrong. Please try again later");
       }
     } finally {
       setLoading(false);
     }
-    //TODO: Cleanup in case of an error
   };
 
   const inputcss = "min-h-[50px] mb-2 rounded outline-none p-[10px] text-base";

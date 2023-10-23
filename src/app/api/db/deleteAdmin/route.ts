@@ -9,8 +9,8 @@ export async function POST(req: Request) {
     const newAdmin = reqBody.data as z.infer<typeof adminsSchema>;
     const data = await prisma.admins.delete({ where: newAdmin });
 
-    return NextResponse.json({ success: true, data });
-  } catch {
-    return NextResponse.json({ success: false });
+    return NextResponse.json({ data }, { status: 200 });
+  } catch (e) {
+    return NextResponse.json({ error: e }, { status: 500 });
   }
 }
